@@ -55,6 +55,19 @@ https://status.usenov.com
 
 <br>
 
+## Why Usenov Status?
+
+Most status pages are either too heavy, too expensive or difficult to customize.
+
+Usenov Status focuses on:
+- beautiful developer-first UI,
+- embeddable React widgets,
+- lightweight infrastructure,
+- simple deployment,
+- full customization.
+
+<br>
+
 ## 🟢 Service Statuses
 
 | Status | Description |
