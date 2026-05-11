@@ -1,16 +1,16 @@
-<h1 align="center">
-  Usenov Status
-</h1>
+# Usenov Status
+
+<br>
 
 <p align="center">
-  Modern uptime monitoring dashboard for websites and APIs across the Usenov ecosystem.
+  Beautiful open-source infrastructure monitoring platform for websites, APIs and modern web services.
 </p>
 
 <br>
 
 <p align="center">
   <img
-    width="650"
+    width="850"
     alt="Usenov Status Preview"
     src="https://github.com/user-attachments/assets/3f111777-2efd-4df5-ae95-1e7c778b0115"
     style="border-radius: 18px;"
@@ -19,33 +19,39 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react" />
-  
   <img src="https://img.shields.io/badge/TypeScript-1E293B?style=for-the-badge&logo=typescript" />
-  
   <img src="https://img.shields.io/badge/Vite-2A3153?style=for-the-badge&logo=vite" />
-  
   <img src="https://img.shields.io/badge/TailwindCSS-0F172A?style=for-the-badge&logo=tailwindcss" />
-  
-  <img src="https://img.shields.io/badge/Express-111111?style=for-the-badge&logo=express" />
-  
-  <img src="https://img.shields.io/badge/Fly.io-8B5CF6?style=for-the-badge&logo=flydotio" />
-  
+  <img src="https://img.shields.io/badge/Cloudflare%20Workers-1F1F1F?style=for-the-badge&logo=cloudflare&logoColor=F38020" />
   <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel" />
+  <img src="https://img.shields.io/badge/npm%20package-CB3837?style=for-the-badge&logo=npm" />
 </p>
 
 <br>
 
 ## ✨ Features
 
-- Real-time service monitoring
-- Beautiful SaaS-inspired dashboard
+- Real-time website and API monitoring
 - Automatic status refresh
 - Response time tracking
-- Live uptime indicators
-- Responsive modern UI
-- Full TypeScript frontend and backend
-- Fly.io backend deployment
+- HTTP status code tracking
+- Beautiful SaaS-inspired UI
+- Fully responsive dashboard
+- Multiple widget themes
+- Glassmorphism and neon UI modes
+- Customizable colors, labels, layout and sizing
+- Reusable React widget package
+- Cloudflare Workers monitoring API
 - Vercel frontend deployment
+- Full TypeScript architecture
+
+<br>
+
+## 🌐 Live Demo
+
+```txt
+https://status.usenov.com
+```
 
 <br>
 
@@ -54,16 +60,475 @@
 | Status | Description |
 |---|---|
 | 🟢 Operational | Service is fully online |
-| 🟡 Degraded | Partial issues or slow response |
-| 🔴 Major outage | Service is unavailable |
+| 🟡 Degraded | Slow response or partial issues |
+| 🔴 Offline | Service is unavailable |
 
 <br>
 
 ## 🏗 Architecture
 
 ```txt
-Frontend (React + Vite)
+Frontend Dashboard (React + Vite)
         ↓
-Backend API (Express)
+Cloudflare Worker API
         ↓
 Website & API Monitoring
+```
+
+The Worker performs server-side checks, so the widget can monitor external websites without browser CORS problems.
+
+<br>
+
+## 📦 Monorepo Structure
+
+```txt
+Usenov-Status/
+│
+├── frontend/
+│   ├── React dashboard
+│   ├── Tailwind UI
+│   └── Vercel deployment
+│
+├── worker/
+│   ├── Cloudflare Worker API
+│   └── Service checking logic
+│
+├── backend/
+│   └── Archived legacy backend structure
+│
+└── packages/
+    └── status-widget/
+        ├── Reusable React widget
+        ├── Vite library build
+        └── TypeScript package
+```
+
+<br>
+
+## 🚀 Getting Started
+
+### Clone repository
+
+```bash
+git clone https://github.com/ArseniiFrontend/Usenov-Status.git
+cd Usenov-Status
+```
+
+<br>
+
+## 🖥 Frontend Setup
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs on:
+
+```txt
+http://localhost:5173
+```
+
+Create `frontend/.env`:
+
+```env
+VITE_API_URL=https://worker.usenov.workers.dev
+```
+
+<br>
+
+## ☁️ Cloudflare Worker Setup
+
+```bash
+cd worker
+npm install
+npm run dev
+```
+
+Worker runs on:
+
+```txt
+http://127.0.0.1:8787
+```
+
+Login and deploy:
+
+```bash
+npx wrangler login
+npx wrangler deploy
+```
+
+<br>
+
+## 📡 Worker API
+
+### Default status endpoint
+
+```txt
+GET /api/status
+```
+
+Returns the default services configured inside the Worker.
+
+### Dynamic check endpoint
+
+```txt
+POST /api/check
+```
+
+Body:
+
+```json
+{
+  "services": [
+    {
+      "name": "Portfolio",
+      "url": "https://example.com",
+      "type": "website"
+    },
+    {
+      "name": "API",
+      "url": "https://api.example.com",
+      "type": "api"
+    }
+  ]
+}
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "checkedAt": "2026-05-11T12:00:00.000Z",
+  "services": [
+    {
+      "id": "portfolio",
+      "name": "Portfolio",
+      "url": "https://example.com",
+      "type": "website",
+      "status": "online",
+      "statusCode": 200,
+      "responseTime": 84,
+      "checkedAt": "2026-05-11T12:00:00.000Z"
+    }
+  ]
+}
+```
+
+<br>
+
+## 🎨 Status Widget Package
+
+Usenov Status includes a reusable React widget package:
+
+```txt
+packages/status-widget
+```
+
+The widget can be imported into any React project and configured with custom services.
+
+<br>
+
+## 📦 Widget Installation
+
+### Local monorepo usage
+
+Inside `frontend/package.json`:
+
+```json
+{
+  "dependencies": {
+    "@usenov/status-widget": "file:../packages/status-widget"
+  }
+}
+```
+
+Then run:
+
+```bash
+cd frontend
+npm install
+```
+
+### npm usage
+
+```bash
+npm install @usenov/status-widget
+```
+
+> The npm package release is planned. Until it is published, use the local monorepo package.
+
+<br>
+
+## 🧩 Basic Widget Usage
+
+```tsx
+import { StatusWidget } from "@usenov/status-widget";
+import "@usenov/status-widget/dist/status-widget.css";
+
+export default function App() {
+  return (
+    <StatusWidget
+      title="Infrastructure"
+      services={[
+        {
+          name: "Portfolio",
+          url: "https://example.com",
+          type: "website",
+        },
+        {
+          name: "API",
+          url: "https://api.example.com",
+          type: "api",
+        },
+      ]}
+    />
+  );
+}
+```
+
+<br>
+
+## ☁️ Hosted vs Self-hosted Mode
+
+By default, the widget uses the hosted Usenov Worker API:
+
+```txt
+https://worker.usenov.workers.dev
+```
+
+For production or private usage, you can deploy your own Worker and pass a custom `apiUrl`:
+
+```tsx
+<StatusWidget
+  apiUrl="https://your-worker.workers.dev"
+  services={[
+    {
+      name: "My Website",
+      url: "https://example.com",
+      type: "website",
+    },
+  ]}
+/>
+```
+
+<br>
+
+## 🎨 Widget Themes
+
+Available themes:
+
+```tsx
+theme="dark"
+theme="light"
+theme="glass"
+theme="neon"
+```
+
+Example:
+
+```tsx
+<StatusWidget
+  title="My Infrastructure"
+  theme="neon"
+  accentColor="#8b5cf6"
+  services={[
+    {
+      name: "Website",
+      url: "https://example.com",
+    },
+  ]}
+/>
+```
+
+<br>
+
+## 🎛 Full Customization Example
+
+```tsx
+<StatusWidget
+  title="My Infrastructure"
+  theme="glass"
+  rounded="2xl"
+  accentColor="#04AE79"
+
+  fullWidth
+  maxWidth="1000px"
+
+  showGlow
+  showUrls
+  showResponseTime
+  showStatusCode
+  showLastUpdated
+  showHeader
+  showEyebrow
+  showPulse
+  showRootStatus
+
+  enableHover
+
+  refreshInterval={10000}
+
+  onlineLabel="Operational"
+  degradedLabel="Slow"
+  downLabel="Offline"
+
+  colors={{
+    background: "#050605",
+    cardBackground: "rgba(255,255,255,0.04)",
+    text: "#ffffff",
+    mutedText: "#8b949e",
+    border: "rgba(4,174,121,0.16)",
+    online: "#04AE79",
+    degraded: "#facc15",
+    down: "#ef4444"
+  }}
+
+  services={[
+    {
+      name: "Usenov",
+      url: "https://usenov.com",
+      type: "website",
+    },
+    {
+      name: "Flowtab",
+      url: "https://flowtab.usenov.com",
+      type: "website",
+    },
+  ]}
+/>
+```
+
+<br>
+
+## ⚙️ Widget Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `title` | `string` | `"System Status"` | Widget title |
+| `services` | `StatusWidgetInputService[]` | Required | List of websites/APIs to check |
+| `apiUrl` | `string` | Hosted Worker URL | Worker API URL |
+| `theme` | `"dark" \| "light" \| "glass" \| "neon"` | `"glass"` | Visual theme |
+| `accentColor` | `string` | `"#22c55e"` | Main accent color |
+| `rounded` | `"md" \| "xl" \| "2xl"` | `"2xl"` | Border radius preset |
+| `refreshInterval` | `number` | `30000` | Auto-refresh interval in ms |
+| `fullWidth` | `boolean` | `false` | Makes widget width 100% |
+| `maxWidth` | `string` | `"620px"` | Max widget width |
+| `width` | `string` | `"100%"` | Custom widget width |
+| `showGlow` | `boolean` | `true` | Shows background glow |
+| `showUrls` | `boolean` | `true` | Shows service URLs |
+| `showResponseTime` | `boolean` | `true` | Shows response time |
+| `showStatusCode` | `boolean` | `false` | Shows HTTP status code |
+| `showLastUpdated` | `boolean` | `true` | Shows last update time |
+| `showHeader` | `boolean` | `true` | Shows widget header |
+| `showEyebrow` | `boolean` | `true` | Shows "Live status" label |
+| `showPulse` | `boolean` | `true` | Shows pulse dot |
+| `showRootStatus` | `boolean` | `true` | Shows global status text |
+| `enableHover` | `boolean` | `true` | Enables card hover effect |
+| `onlineLabel` | `string` | `"Operational"` | Online status label |
+| `degradedLabel` | `string` | `"Degraded"` | Degraded status label |
+| `downLabel` | `string` | `"Down"` | Down status label |
+| `colors` | `object` | Optional | Custom color tokens |
+
+<br>
+
+## 🎨 Custom Color Tokens
+
+```tsx
+colors={{
+  background: "#050505",
+  cardBackground: "rgba(255,255,255,0.06)",
+  text: "#ffffff",
+  mutedText: "#a1a1aa",
+  border: "rgba(255,255,255,0.12)",
+  online: "#22c55e",
+  degraded: "#facc15",
+  down: "#ef4444",
+}}
+```
+
+<br>
+
+## 🛠 Build Package Locally
+
+```bash
+cd packages/status-widget
+npm install
+npm run build
+```
+
+The build output will be generated in:
+
+```txt
+packages/status-widget/dist
+```
+
+<br>
+
+## 🌐 Deployment
+
+### Frontend
+
+Recommended platform:
+
+```txt
+Vercel
+```
+
+Build command:
+
+```bash
+npm run build
+```
+
+### Worker
+
+Recommended platform:
+
+```txt
+Cloudflare Workers
+```
+
+Deploy command:
+
+```bash
+npx wrangler deploy
+```
+
+<br>
+
+## 🛠 Tech Stack
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- TailwindCSS
+
+### Backend / API
+
+- Cloudflare Workers
+- Fetch API
+
+### Package
+
+- React
+- TypeScript
+- Vite Library Mode
+- CSS variables
+- npm-style package architecture
+
+<br>
+
+## 📄 License
+
+MIT License
+
+<br>
+
+## ❤️ Built by Usenov
+
+Modern infrastructure tooling for developers.
