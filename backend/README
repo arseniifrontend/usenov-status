@@ -1,0 +1,5 @@
+# Legacy Backend
+
+Previous Express backend implementation.
+
+Current production API uses Cloudflare Workers.
