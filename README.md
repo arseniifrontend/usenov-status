@@ -233,6 +233,17 @@ The widget can be imported into any React project and configured with custom ser
 
 ## 📦 Widget Installation
 
+
+<p align="center">
+    <img
+    width="650"
+    alt="Usenov Status Preview"
+    src="https://github.com/user-attachments/assets/3bfc749e-7bc7-4e08-af4a-073c33be5b57"
+    style="border-radius: 18px;"
+  />
+</p>
+
+
 ### Local monorepo usage
 
 Inside `frontend/package.json`:
