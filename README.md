@@ -35,10 +35,12 @@
 - Automatic status refresh
 - Response time tracking
 - HTTP status code tracking
-- Beautiful SaaS-inspired UI
+- Multiple widget appearances
+- Modern SaaS-inspired UI
 - Fully responsive dashboard
-- Multiple widget themes
 - Glassmorphism and neon UI modes
+- Detailed infrastructure cards
+- Mobile-first responsive layouts
 - Customizable colors, labels, layout and sizing
 - Reusable React widget package
 - Cloudflare Workers monitoring API
@@ -51,7 +53,7 @@
 
 ```txt
 https://status.usenov.com
-```
+````
 
 <br>
 
@@ -60,21 +62,22 @@ https://status.usenov.com
 Most status pages are either too heavy, too expensive or difficult to customize.
 
 Usenov Status focuses on:
-- beautiful developer-first UI,
-- embeddable React widgets,
-- lightweight infrastructure,
-- simple deployment,
-- full customization.
+
+* beautiful developer-first UI,
+* embeddable React widgets,
+* lightweight infrastructure,
+* simple deployment,
+* full customization.
 
 <br>
 
 ## 🟢 Service Statuses
 
-| Status | Description |
-|---|---|
-| 🟢 Operational | Service is fully online |
-| 🟡 Degraded | Slow response or partial issues |
-| 🔴 Offline | Service is unavailable |
+| Status         | Description                     |
+| -------------- | ------------------------------- |
+| 🟢 Operational | Service is fully online         |
+| 🟡 Degraded    | Slow response or partial issues |
+| 🔴 Offline     | Service is unavailable          |
 
 <br>
 
@@ -199,11 +202,6 @@ Body:
       "name": "Portfolio",
       "url": "https://example.com",
       "type": "website"
-    },
-    {
-      "name": "API",
-      "url": "https://api.example.com",
-      "type": "api"
     }
   ]
 }
@@ -247,16 +245,6 @@ The widget can be imported into any React project and configured with custom ser
 ## 📦 Widget Installation
 
 
-<p align="center">
-    <img
-    width="650"
-    alt="Usenov Status Preview"
-    src="https://github.com/user-attachments/assets/3bfc749e-7bc7-4e08-af4a-073c33be5b57"
-    style="border-radius: 18px;"
-  />
-</p>
-
-
 ### Local monorepo usage
 
 Inside `frontend/package.json`:
@@ -286,6 +274,84 @@ npm install @usenov/status-widget
 
 <br>
 
+## 🎨 Widget Appearances
+
+Usenov Status currently includes two built-in appearances:
+
+* `default`
+* `modern`
+
+Both support:
+
+* responsive layouts,
+* multiple themes,
+* custom colors,
+* SaaS-style UI,
+* reusable React architecture.
+
+<br>
+
+## 🧩 Default Appearance
+
+<p align="center">
+  <img
+    width="760"
+    alt="Default Widget Preview"
+    src="https://github.com/user-attachments/assets/3bfc749e-7bc7-4e08-af4a-073c33be5b57"
+    style="border-radius: 18px;"
+  />
+</p>
+
+```tsx
+<StatusWidget
+  appearance="default"
+  theme="glass"
+  services={[
+    {
+      name: "Portfolio",
+      url: "https://example.com",
+      type: "website",
+    },
+  ]}
+/>
+```
+
+<br>
+
+## ✨ Modern Appearance
+
+<p align="center">
+  <img
+    width="760"
+    alt="Modern Widget Preview"
+    src="https://github.com/user-attachments/assets/f1334d56-feee-4330-be1d-e5bd0bd5537b"
+    style="border-radius: 18px;"
+  />
+</p>
+
+
+```tsx
+<StatusWidget
+  appearance="modern"
+  theme="glass"
+  accentColor="#04AE79"
+  fullWidth
+  maxWidth="1024px"
+  showStatusCode
+  showResponseTime
+  showSummary
+  services={[
+    {
+      name: "Portfolio",
+      url: "https://example.com",
+      type: "website",
+    },
+  ]}
+/>
+```
+
+<br>
+
 ## 🧩 Basic Widget Usage
 
 ```tsx
@@ -301,11 +367,6 @@ export default function App() {
           name: "Portfolio",
           url: "https://example.com",
           type: "website",
-        },
-        {
-          name: "API",
-          url: "https://api.example.com",
-          type: "api",
         },
       ]}
     />
@@ -355,9 +416,10 @@ Example:
 
 ```tsx
 <StatusWidget
+  appearance="modern"
   title="My Infrastructure"
-  theme="neon"
-  accentColor="#8b5cf6"
+  theme="glass"
+  accentColor="#04AE79"
   services={[
     {
       name: "Website",
@@ -373,7 +435,7 @@ Example:
 
 ```tsx
 <StatusWidget
-  title="My Infrastructure"
+  appearance="modern"
   theme="glass"
   rounded="2xl"
   accentColor="#04AE79"
@@ -390,6 +452,7 @@ Example:
   showEyebrow
   showPulse
   showRootStatus
+  showSummary
 
   enableHover
 
@@ -429,32 +492,34 @@ Example:
 
 ## ⚙️ Widget Props
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `title` | `string` | `"System Status"` | Widget title |
-| `services` | `StatusWidgetInputService[]` | Required | List of websites/APIs to check |
-| `apiUrl` | `string` | Hosted Worker URL | Worker API URL |
-| `theme` | `"dark" \| "light" \| "glass" \| "neon"` | `"glass"` | Visual theme |
-| `accentColor` | `string` | `"#22c55e"` | Main accent color |
-| `rounded` | `"md" \| "xl" \| "2xl"` | `"2xl"` | Border radius preset |
-| `refreshInterval` | `number` | `30000` | Auto-refresh interval in ms |
-| `fullWidth` | `boolean` | `false` | Makes widget width 100% |
-| `maxWidth` | `string` | `"620px"` | Max widget width |
-| `width` | `string` | `"100%"` | Custom widget width |
-| `showGlow` | `boolean` | `true` | Shows background glow |
-| `showUrls` | `boolean` | `true` | Shows service URLs |
-| `showResponseTime` | `boolean` | `true` | Shows response time |
-| `showStatusCode` | `boolean` | `false` | Shows HTTP status code |
-| `showLastUpdated` | `boolean` | `true` | Shows last update time |
-| `showHeader` | `boolean` | `true` | Shows widget header |
-| `showEyebrow` | `boolean` | `true` | Shows "Live status" label |
-| `showPulse` | `boolean` | `true` | Shows pulse dot |
-| `showRootStatus` | `boolean` | `true` | Shows global status text |
-| `enableHover` | `boolean` | `true` | Enables card hover effect |
-| `onlineLabel` | `string` | `"Operational"` | Online status label |
-| `degradedLabel` | `string` | `"Degraded"` | Degraded status label |
-| `downLabel` | `string` | `"Down"` | Down status label |
-| `colors` | `object` | Optional | Custom color tokens |
+| Prop               | Type                                     | Default           | Description                    |
+| ------------------ | ---------------------------------------- | ----------------- | ------------------------------ |
+| `title`            | `string`                                 | `"System Status"` | Widget title                   |
+| `services`         | `StatusWidgetInputService[]`             | Required          | List of websites/APIs to check |
+| `apiUrl`           | `string`                                 | Hosted Worker URL | Worker API URL                 |
+| `appearance`       | `"default" \| "modern"`                  | `"default"`       | Widget appearance              |
+| `theme`            | `"dark" \| "light" \| "glass" \| "neon"` | `"glass"`         | Visual theme                   |
+| `accentColor`      | `string`                                 | `"#22c55e"`       | Main accent color              |
+| `rounded`          | `"md" \| "xl" \| "2xl"`                  | `"2xl"`           | Border radius preset           |
+| `refreshInterval`  | `number`                                 | `30000`           | Auto-refresh interval in ms    |
+| `fullWidth`        | `boolean`                                | `false`           | Makes widget width 100%        |
+| `maxWidth`         | `string`                                 | `"620px"`         | Max widget width               |
+| `width`            | `string`                                 | `"100%"`          | Custom widget width            |
+| `showGlow`         | `boolean`                                | `true`            | Shows background glow          |
+| `showUrls`         | `boolean`                                | `true`            | Shows service URLs             |
+| `showResponseTime` | `boolean`                                | `true`            | Shows response time            |
+| `showStatusCode`   | `boolean`                                | `false`           | Shows HTTP status code         |
+| `showSummary`      | `boolean`                                | `true`            | Shows summary cards            |
+| `showLastUpdated`  | `boolean`                                | `true`            | Shows last update time         |
+| `showHeader`       | `boolean`                                | `true`            | Shows widget header            |
+| `showEyebrow`      | `boolean`                                | `true`            | Shows status eyebrow           |
+| `showPulse`        | `boolean`                                | `true`            | Shows pulse indicator          |
+| `showRootStatus`   | `boolean`                                | `true`            | Shows global status text       |
+| `enableHover`      | `boolean`                                | `true`            | Enables hover effects          |
+| `onlineLabel`      | `string`                                 | `"Operational"`   | Online status label            |
+| `degradedLabel`    | `string`                                 | `"Degraded"`      | Degraded status label          |
+| `downLabel`        | `string`                                 | `"Down"`          | Down status label              |
+| `colors`           | `object`                                 | Optional          | Custom color tokens            |
 
 <br>
 
@@ -527,23 +592,23 @@ npx wrangler deploy
 
 ### Frontend
 
-- React
-- TypeScript
-- Vite
-- TailwindCSS
+* React
+* TypeScript
+* Vite
+* TailwindCSS
 
 ### Backend / API
 
-- Cloudflare Workers
-- Fetch API
+* Cloudflare Workers
+* Fetch API
 
 ### Package
 
-- React
-- TypeScript
-- Vite Library Mode
-- CSS variables
-- npm-style package architecture
+* React
+* TypeScript
+* Vite Library Mode
+* CSS variables
+* npm-style package architecture
 
 <br>
 
