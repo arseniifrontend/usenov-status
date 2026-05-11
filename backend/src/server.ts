@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
-import app from "./app";
+import app from "./app.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT) || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Usenov Status API is running on port ${PORT}`);
 });

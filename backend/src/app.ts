@@ -1,10 +1,18 @@
 import express from "express";
 import cors from "cors";
-import statusRoutes from "./routes/status.routes";
+import statusRoutes from "./routes/status.routes.js";
 
 const app = express();
 
-app.use(cors());
+app.use(
+    cors({
+        origin: [
+        "http://localhost:5173",
+        "https://status.usenov.com",
+        ],
+    })
+);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
