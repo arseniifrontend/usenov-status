@@ -5,7 +5,6 @@ import { getServicesStatus } from "./services/status.service";
 
 import type { Service } from "./types/status.types";
 
-import { StatusWidget } from "@usenov/status-widget";
 import "@usenov/status-widget/dist/status-widget.css";
 
 function App() {
