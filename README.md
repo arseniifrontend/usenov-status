@@ -3,7 +3,7 @@
 <br>
 
 <p align="center">
-  Beautiful open-source infrastructure monitoring platform for websites, APIs and modern web services.
+  Beautiful open-source monitoring widgets and infrastructure status dashboards for modern web services.
 </p>
 
 <br>
