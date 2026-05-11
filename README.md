@@ -3,7 +3,7 @@
 <br>
 
 <p align="center">
-  Beautiful open-source infrastructure monitoring platform for websites, APIs and modern web services.
+  Beautiful open-source monitoring widgets and infrastructure status dashboards for modern web services.
 </p>
 
 <br>
@@ -52,6 +52,19 @@
 ```txt
 https://status.usenov.com
 ```
+
+<br>
+
+## Why Usenov Status?
+
+Most status pages are either too heavy, too expensive or difficult to customize.
+
+Usenov Status focuses on:
+- beautiful developer-first UI,
+- embeddable React widgets,
+- lightweight infrastructure,
+- simple deployment,
+- full customization.
 
 <br>
 
@@ -232,6 +245,17 @@ The widget can be imported into any React project and configured with custom ser
 <br>
 
 ## 📦 Widget Installation
+
+
+<p align="center">
+    <img
+    width="650"
+    alt="Usenov Status Preview"
+    src="https://github.com/user-attachments/assets/3bfc749e-7bc7-4e08-af4a-073c33be5b57"
+    style="border-radius: 18px;"
+  />
+</p>
+
 
 ### Local monorepo usage
 
