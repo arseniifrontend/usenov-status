@@ -1,6 +1,7 @@
 export { StatusWidget } from "./StatusWidget";
 
 export type {
+    StatusWidgetAppearance,
     StatusWidgetInputService,
     StatusWidgetProps,
     StatusWidgetRounded,

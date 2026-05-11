@@ -1,6 +1,7 @@
 export type StatusWidgetStatus = "online" | "degraded" | "down";
 export type StatusWidgetTheme = "dark" | "light" | "glass" | "neon";
 export type StatusWidgetRounded = "md" | "xl" | "2xl";
+export type StatusWidgetAppearance = "default" | "modern";
 export type StatusWidgetColors = {
     background?: string;
     cardBackground?: string;
@@ -29,6 +30,7 @@ export type StatusWidgetProps = {
     services: StatusWidgetInputService[];
     apiUrl?: string;
     theme?: StatusWidgetTheme;
+    appearance?: StatusWidgetAppearance;
     accentColor?: string;
     rounded?: StatusWidgetRounded;
     colors?: StatusWidgetColors;
@@ -50,6 +52,13 @@ export type StatusWidgetProps = {
     showEyebrow?: boolean;
     showPulse?: boolean;
     showRootStatus?: boolean;
+    showSummary?: boolean;
+    summaryLabels?: {
+        total?: string;
+        online?: string;
+        degraded?: string;
+        avgLatency?: string;
+    };
 };
-export declare function StatusWidget({ title, services, apiUrl, theme, accentColor, rounded, colors, refreshInterval, showUrls, showResponseTime, showStatusCode, showLastUpdated, showHeader, enableHover, onlineLabel, degradedLabel, downLabel, className, width, maxWidth, fullWidth, showGlow, showEyebrow, showPulse, showRootStatus, }: StatusWidgetProps): import("react/jsx-runtime").JSX.Element;
+export declare function StatusWidget({ title, services, apiUrl, theme, appearance, accentColor, rounded, colors, refreshInterval, showUrls, showResponseTime, showStatusCode, showLastUpdated, showHeader, enableHover, onlineLabel, degradedLabel, downLabel, className, width, maxWidth, fullWidth, showGlow, showEyebrow, showPulse, showRootStatus, showSummary, summaryLabels, }: StatusWidgetProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=StatusWidget.d.ts.map

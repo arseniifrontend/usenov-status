@@ -4,10 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import "./styles.css";
 
 export type StatusWidgetStatus = "online" | "degraded" | "down";
-
 export type StatusWidgetTheme = "dark" | "light" | "glass" | "neon";
-
 export type StatusWidgetRounded = "md" | "xl" | "2xl";
+export type StatusWidgetAppearance = "default" | "modern";
 
 export type StatusWidgetColors = {
   background?: string;
@@ -38,10 +37,10 @@ export type StatusWidgetService = StatusWidgetInputService & {
 export type StatusWidgetProps = {
   title?: string;
   services: StatusWidgetInputService[];
-
   apiUrl?: string;
 
   theme?: StatusWidgetTheme;
+  appearance?: StatusWidgetAppearance;
   accentColor?: string;
   rounded?: StatusWidgetRounded;
   colors?: StatusWidgetColors;
@@ -65,12 +64,20 @@ export type StatusWidgetProps = {
   width?: string;
   maxWidth?: string;
   fullWidth?: boolean;
-  
+
   showGlow?: boolean;
 
   showEyebrow?: boolean;
   showPulse?: boolean;
   showRootStatus?: boolean;
+
+  showSummary?: boolean;
+  summaryLabels?: {
+    total?: string;
+    online?: string;
+    degraded?: string;
+    avgLatency?: string;
+  };
 };
 
 type StatusResponse = {
@@ -96,15 +103,8 @@ function getStatusLabel(
 
 function getRootStatus(services: StatusWidgetService[]) {
   if (services.length === 0) return "Checking services...";
-
-  if (services.some((service) => service.status === "down")) {
-    return "Major outage";
-  }
-
-  if (services.some((service) => service.status === "degraded")) {
-    return "Some services degraded";
-  }
-
+  if (services.some((service) => service.status === "down")) return "Some services require attention";
+  if (services.some((service) => service.status === "degraded")) return "Some services degraded";
   return "All systems operational";
 }
 
@@ -117,9 +117,7 @@ async function checkServices(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      services,
-    }),
+    body: JSON.stringify({ services }),
   });
 
   if (!response.ok) {
@@ -136,6 +134,7 @@ export function StatusWidget({
   apiUrl = DEFAULT_API_URL,
 
   theme = "glass",
+  appearance = "default",
   accentColor = "#22c55e",
   rounded = "2xl",
   colors,
@@ -165,6 +164,9 @@ export function StatusWidget({
   showEyebrow = true,
   showPulse = true,
   showRootStatus = true,
+
+  showSummary = true,
+  summaryLabels,
 }: StatusWidgetProps) {
   const [checkedServices, setCheckedServices] = useState<StatusWidgetService[]>([]);
   const [checkedAt, setCheckedAt] = useState<string | null>(null);
@@ -205,22 +207,45 @@ export function StatusWidget({
     return getRootStatus(checkedServices);
   }, [checkedServices]);
 
+  const summary = useMemo(() => {
+    const targetServices = loading ? [] : checkedServices;
+
+    const total = loading ? services.length : targetServices.length;
+    const online = targetServices.filter((s) => s.status === "online").length;
+    const degraded = targetServices.filter((s) => s.status === "degraded").length;
+
+    const avgLatency =
+      targetServices.length > 0
+        ? Math.round(
+            targetServices.reduce((sum, s) => sum + (s.responseTime ?? 0), 0) /
+              targetServices.length
+          )
+        : 0;
+
+    return {
+      total,
+      online,
+      degraded,
+      avgLatency,
+    };
+  }, [checkedServices, loading, services.length]);
+
   const widgetStyle = {
     "--usenov-status-accent": accentColor,
-  
+
     "--usenov-status-bg": colors?.background,
     "--usenov-status-card-bg": colors?.cardBackground,
     "--usenov-status-text": colors?.text,
     "--usenov-status-muted": colors?.mutedText,
     "--usenov-status-border": colors?.border,
-  
+
     "--usenov-status-online": colors?.online,
     "--usenov-status-degraded": colors?.degraded,
     "--usenov-status-down": colors?.down,
-  
+
     "--usenov-status-width": fullWidth ? "100%" : width,
     "--usenov-status-max-width": fullWidth ? "100%" : maxWidth,
-  
+
     "--usenov-status-glow-opacity": showGlow ? "0.16" : "0",
   } as CSSProperties;
 
@@ -230,12 +255,15 @@ export function StatusWidget({
     downLabel,
   };
 
+  const isModern = appearance === "modern";
+
   return (
     <section
       className={[
         "usenov-status-widget",
         `usenov-status-widget--${theme}`,
         `usenov-status-widget--${rounded}`,
+        `usenov-status-widget--appearance-${appearance}`,
         className,
       ].join(" ")}
       style={widgetStyle}
@@ -245,7 +273,13 @@ export function StatusWidget({
           <div>
             {showEyebrow && (
               <p className="usenov-status-widget__eyebrow">
-                {refreshing ? "Refreshing" : "Live status"}
+                {refreshing
+                  ? isModern
+                    ? "Checking services..."
+                    : "Refreshing"
+                  : isModern
+                    ? "Live monitoring"
+                    : "Live status"}
               </p>
             )}
 
@@ -256,15 +290,47 @@ export function StatusWidget({
                 {loading ? "Checking services..." : rootStatus}
               </p>
             )}
+
+            {showLastUpdated && checkedAt && isModern && (
+              <p className="usenov-status-widget__updated usenov-status-widget__updated--header">
+                Last updated: {new Date(checkedAt).toLocaleTimeString()}
+              </p>
+            )}
           </div>
 
-          {showPulse && (
-            <span className="usenov-status-widget__pulse" />
-          )}
+          {showPulse && !isModern && <span className="usenov-status-widget__pulse" />}
         </header>
       )}
 
       {error && <div className="usenov-status-widget__error">{error}</div>}
+
+      {isModern && showSummary && (
+        <div className="usenov-status-widget__summary">
+          <div className="usenov-status-widget__summary-card">
+            <p>{summaryLabels?.total ?? "Services"}</p>
+            <strong>{summary.total}</strong>
+          </div>
+
+          <div className="usenov-status-widget__summary-card">
+            <p>{summaryLabels?.online ?? "Operational"}</p>
+            <strong className="usenov-status-widget__summary-value--online">
+              {summary.online}
+            </strong>
+          </div>
+
+          <div className="usenov-status-widget__summary-card">
+            <p>{summaryLabels?.degraded ?? "Degraded"}</p>
+            <strong className="usenov-status-widget__summary-value--degraded">
+              {summary.degraded}
+            </strong>
+          </div>
+
+          <div className="usenov-status-widget__summary-card">
+            <p>{summaryLabels?.avgLatency ?? "Avg latency"}</p>
+            <strong>{summary.avgLatency} ms</strong>
+          </div>
+        </div>
+      )}
 
       <div className="usenov-status-widget__list">
         {loading &&
@@ -295,24 +361,11 @@ export function StatusWidget({
                 enableHover ? "usenov-status-widget__service--hover" : "",
               ].join(" ")}
             >
-              <div className="usenov-status-widget__service-info">
-                <strong>{service.name}</strong>
-
-                {showUrls && <span>{service.url}</span>}
-              </div>
-
-              <div className="usenov-status-widget__service-meta">
-                {showStatusCode && (
-                  <span className="usenov-status-widget__code">
-                    {service.statusCode ?? "--"}
-                  </span>
-                )}
-
-                {showResponseTime && (
-                  <span className="usenov-status-widget__latency">
-                    {service.responseTime ?? "--"} ms
-                  </span>
-                )}
+              <div className="usenov-status-widget__service-top">
+                <div className="usenov-status-widget__service-info">
+                  <strong>{service.name}</strong>
+                  {showUrls && <span>{service.url}</span>}
+                </div>
 
                 <span
                   className={[
@@ -323,11 +376,32 @@ export function StatusWidget({
                   {getStatusLabel(service.status, labels)}
                 </span>
               </div>
+
+              <div className="usenov-status-widget__service-stats">
+                {showStatusCode && (
+                  <div className="usenov-status-widget__stat">
+                    <span>Status code</span>
+                    <strong>{service.statusCode ?? "--"}</strong>
+                  </div>
+                )}
+
+                {showResponseTime && (
+                  <div className="usenov-status-widget__stat">
+                    <span>Response time</span>
+                    <strong>{service.responseTime ?? "--"} ms</strong>
+                  </div>
+                )}
+
+                <div className="usenov-status-widget__stat">
+                  <span>Type</span>
+                  <strong>{service.type ?? "website"}</strong>
+                </div>
+              </div>
             </article>
           ))}
       </div>
 
-      {showLastUpdated && checkedAt && (
+      {showLastUpdated && checkedAt && !isModern && (
         <p className="usenov-status-widget__updated">
           Last updated: {new Date(checkedAt).toLocaleTimeString()}
         </p>

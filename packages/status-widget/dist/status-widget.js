@@ -6,7 +6,7 @@ function o(e, t) {
 	return e === "online" ? t.onlineLabel : e === "degraded" ? t.degradedLabel : t.downLabel;
 }
 function s(e) {
-	return e.length === 0 ? "Checking services..." : e.some((e) => e.status === "down") ? "Major outage" : e.some((e) => e.status === "degraded") ? "Some services degraded" : "All systems operational";
+	return e.length === 0 ? "Checking services..." : e.some((e) => e.status === "down") ? "Some services require attention" : e.some((e) => e.status === "degraded") ? "Some services degraded" : "All systems operational";
 }
 async function c(e, t) {
 	let n = await fetch(`${e}/api/check`, {
@@ -17,117 +17,167 @@ async function c(e, t) {
 	if (!n.ok) throw Error("Failed to check services");
 	return n.json();
 }
-function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = "glass", accentColor: p = "#22c55e", rounded: m = "2xl", colors: h, refreshInterval: g = 3e4, showUrls: _ = !0, showResponseTime: v = !0, showStatusCode: y = !1, showLastUpdated: b = !0, showHeader: x = !0, enableHover: S = !0, onlineLabel: C = "Operational", degradedLabel: w = "Degraded", downLabel: T = "Down", className: E = "", width: D, maxWidth: O = "620px", fullWidth: k = !1, showGlow: A = !0, showEyebrow: j = !0, showPulse: M = !0, showRootStatus: N = !0 }) {
-	let [P, F] = n([]), [I, L] = n(null), [R, z] = n(!0), [B, V] = n(!1), [H, U] = n(null);
-	async function W(e = !1) {
+function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = "glass", appearance: p = "default", accentColor: m = "#22c55e", rounded: h = "2xl", colors: g, refreshInterval: _ = 3e4, showUrls: v = !0, showResponseTime: y = !0, showStatusCode: b = !1, showLastUpdated: x = !0, showHeader: S = !0, enableHover: C = !0, onlineLabel: w = "Operational", degradedLabel: T = "Degraded", downLabel: E = "Down", className: D = "", width: O, maxWidth: k = "620px", fullWidth: A = !1, showGlow: j = !0, showEyebrow: M = !0, showPulse: N = !0, showRootStatus: P = !0, showSummary: F = !0, summaryLabels: I }) {
+	let [L, R] = n([]), [z, B] = n(null), [V, H] = n(!0), [U, W] = n(!1), [G, K] = n(null);
+	async function q(e = !1) {
 		try {
-			e && V(!0);
+			e && W(!0);
 			let t = await c(d, u);
-			F(t.services), L(t.checkedAt), U(null);
+			R(t.services), B(t.checkedAt), K(null);
 		} catch {
-			U("Failed to load service status");
+			K("Failed to load service status");
 		} finally {
-			z(!1), V(!1);
+			H(!1), W(!1);
 		}
 	}
 	e(() => {
-		if (W(), !g) return;
+		if (q(), !_) return;
 		let e = window.setInterval(() => {
-			W(!0);
-		}, g);
+			q(!0);
+		}, _);
 		return () => window.clearInterval(e);
 	}, [
 		d,
-		g,
+		_,
 		JSON.stringify(u)
 	]);
-	let G = t(() => s(P), [P]), K = {
-		"--usenov-status-accent": p,
-		"--usenov-status-bg": h?.background,
-		"--usenov-status-card-bg": h?.cardBackground,
-		"--usenov-status-text": h?.text,
-		"--usenov-status-muted": h?.mutedText,
-		"--usenov-status-border": h?.border,
-		"--usenov-status-online": h?.online,
-		"--usenov-status-degraded": h?.degraded,
-		"--usenov-status-down": h?.down,
-		"--usenov-status-width": k ? "100%" : D,
-		"--usenov-status-max-width": k ? "100%" : O,
-		"--usenov-status-glow-opacity": A ? "0.16" : "0"
-	}, q = {
-		onlineLabel: C,
-		degradedLabel: w,
-		downLabel: T
-	};
+	let J = t(() => s(L), [L]), Y = t(() => {
+		let e = V ? [] : L;
+		return {
+			total: V ? u.length : e.length,
+			online: e.filter((e) => e.status === "online").length,
+			degraded: e.filter((e) => e.status === "degraded").length,
+			avgLatency: e.length > 0 ? Math.round(e.reduce((e, t) => e + (t.responseTime ?? 0), 0) / e.length) : 0
+		};
+	}, [
+		L,
+		V,
+		u.length
+	]), X = {
+		"--usenov-status-accent": m,
+		"--usenov-status-bg": g?.background,
+		"--usenov-status-card-bg": g?.cardBackground,
+		"--usenov-status-text": g?.text,
+		"--usenov-status-muted": g?.mutedText,
+		"--usenov-status-border": g?.border,
+		"--usenov-status-online": g?.online,
+		"--usenov-status-degraded": g?.degraded,
+		"--usenov-status-down": g?.down,
+		"--usenov-status-width": A ? "100%" : O,
+		"--usenov-status-max-width": A ? "100%" : k,
+		"--usenov-status-glow-opacity": j ? "0.16" : "0"
+	}, Z = {
+		onlineLabel: w,
+		degradedLabel: T,
+		downLabel: E
+	}, Q = p === "modern";
 	return /* @__PURE__ */ i("section", {
 		className: [
 			"usenov-status-widget",
 			`usenov-status-widget--${f}`,
-			`usenov-status-widget--${m}`,
-			E
+			`usenov-status-widget--${h}`,
+			`usenov-status-widget--appearance-${p}`,
+			D
 		].join(" "),
-		style: K,
+		style: X,
 		children: [
-			x && /* @__PURE__ */ i("header", {
+			S && /* @__PURE__ */ i("header", {
 				className: "usenov-status-widget__header",
 				children: [/* @__PURE__ */ i("div", { children: [
-					j && /* @__PURE__ */ r("p", {
+					M && /* @__PURE__ */ r("p", {
 						className: "usenov-status-widget__eyebrow",
-						children: B ? "Refreshing" : "Live status"
+						children: U ? Q ? "Checking services..." : "Refreshing" : Q ? "Live monitoring" : "Live status"
 					}),
 					/* @__PURE__ */ r("h3", {
 						className: "usenov-status-widget__title",
 						children: l
 					}),
-					N && /* @__PURE__ */ r("p", {
+					P && /* @__PURE__ */ r("p", {
 						className: "usenov-status-widget__subtitle",
-						children: R ? "Checking services..." : G
+						children: V ? "Checking services..." : J
+					}),
+					x && z && Q && /* @__PURE__ */ i("p", {
+						className: "usenov-status-widget__updated usenov-status-widget__updated--header",
+						children: ["Last updated: ", new Date(z).toLocaleTimeString()]
 					})
-				] }), M && /* @__PURE__ */ r("span", { className: "usenov-status-widget__pulse" })]
+				] }), N && !Q && /* @__PURE__ */ r("span", { className: "usenov-status-widget__pulse" })]
 			}),
-			H && /* @__PURE__ */ r("div", {
+			G && /* @__PURE__ */ r("div", {
 				className: "usenov-status-widget__error",
-				children: H
+				children: G
+			}),
+			Q && F && /* @__PURE__ */ i("div", {
+				className: "usenov-status-widget__summary",
+				children: [
+					/* @__PURE__ */ i("div", {
+						className: "usenov-status-widget__summary-card",
+						children: [/* @__PURE__ */ r("p", { children: I?.total ?? "Services" }), /* @__PURE__ */ r("strong", { children: Y.total })]
+					}),
+					/* @__PURE__ */ i("div", {
+						className: "usenov-status-widget__summary-card",
+						children: [/* @__PURE__ */ r("p", { children: I?.online ?? "Operational" }), /* @__PURE__ */ r("strong", {
+							className: "usenov-status-widget__summary-value--online",
+							children: Y.online
+						})]
+					}),
+					/* @__PURE__ */ i("div", {
+						className: "usenov-status-widget__summary-card",
+						children: [/* @__PURE__ */ r("p", { children: I?.degraded ?? "Degraded" }), /* @__PURE__ */ r("strong", {
+							className: "usenov-status-widget__summary-value--degraded",
+							children: Y.degraded
+						})]
+					}),
+					/* @__PURE__ */ i("div", {
+						className: "usenov-status-widget__summary-card",
+						children: [/* @__PURE__ */ r("p", { children: I?.avgLatency ?? "Avg latency" }), /* @__PURE__ */ i("strong", { children: [Y.avgLatency, " ms"] })]
+					})
+				]
 			}),
 			/* @__PURE__ */ i("div", {
 				className: "usenov-status-widget__list",
-				children: [R && u.map((e) => /* @__PURE__ */ i("article", {
+				children: [V && u.map((e) => /* @__PURE__ */ i("article", {
 					className: [
 						"usenov-status-widget__service",
 						"usenov-status-widget__service--loading",
-						S ? "usenov-status-widget__service--hover" : ""
+						C ? "usenov-status-widget__service--hover" : ""
 					].join(" "),
 					children: [/* @__PURE__ */ i("div", {
 						className: "usenov-status-widget__service-info",
-						children: [/* @__PURE__ */ r("strong", { children: e.name }), _ && /* @__PURE__ */ r("span", { children: e.url })]
+						children: [/* @__PURE__ */ r("strong", { children: e.name }), v && /* @__PURE__ */ r("span", { children: e.url })]
 					}), /* @__PURE__ */ r("div", { className: "usenov-status-widget__skeleton" })]
-				}, e.url)), !R && P.map((e) => /* @__PURE__ */ i("article", {
-					className: ["usenov-status-widget__service", S ? "usenov-status-widget__service--hover" : ""].join(" "),
+				}, e.url)), !V && L.map((e) => /* @__PURE__ */ i("article", {
+					className: ["usenov-status-widget__service", C ? "usenov-status-widget__service--hover" : ""].join(" "),
 					children: [/* @__PURE__ */ i("div", {
-						className: "usenov-status-widget__service-info",
-						children: [/* @__PURE__ */ r("strong", { children: e.name }), _ && /* @__PURE__ */ r("span", { children: e.url })]
+						className: "usenov-status-widget__service-top",
+						children: [/* @__PURE__ */ i("div", {
+							className: "usenov-status-widget__service-info",
+							children: [/* @__PURE__ */ r("strong", { children: e.name }), v && /* @__PURE__ */ r("span", { children: e.url })]
+						}), /* @__PURE__ */ r("span", {
+							className: ["usenov-status-widget__badge", `usenov-status-widget__badge--${e.status}`].join(" "),
+							children: o(e.status, Z)
+						})]
 					}), /* @__PURE__ */ i("div", {
-						className: "usenov-status-widget__service-meta",
+						className: "usenov-status-widget__service-stats",
 						children: [
-							y && /* @__PURE__ */ r("span", {
-								className: "usenov-status-widget__code",
-								children: e.statusCode ?? "--"
+							b && /* @__PURE__ */ i("div", {
+								className: "usenov-status-widget__stat",
+								children: [/* @__PURE__ */ r("span", { children: "Status code" }), /* @__PURE__ */ r("strong", { children: e.statusCode ?? "--" })]
 							}),
-							v && /* @__PURE__ */ i("span", {
-								className: "usenov-status-widget__latency",
-								children: [e.responseTime ?? "--", " ms"]
+							y && /* @__PURE__ */ i("div", {
+								className: "usenov-status-widget__stat",
+								children: [/* @__PURE__ */ r("span", { children: "Response time" }), /* @__PURE__ */ i("strong", { children: [e.responseTime ?? "--", " ms"] })]
 							}),
-							/* @__PURE__ */ r("span", {
-								className: ["usenov-status-widget__badge", `usenov-status-widget__badge--${e.status}`].join(" "),
-								children: o(e.status, q)
+							/* @__PURE__ */ i("div", {
+								className: "usenov-status-widget__stat",
+								children: [/* @__PURE__ */ r("span", { children: "Type" }), /* @__PURE__ */ r("strong", { children: e.type ?? "website" })]
 							})
 						]
 					})]
 				}, `${e.name}-${e.url}`))]
 			}),
-			b && I && /* @__PURE__ */ i("p", {
+			x && z && !Q && /* @__PURE__ */ i("p", {
 				className: "usenov-status-widget__updated",
-				children: ["Last updated: ", new Date(I).toLocaleTimeString()]
+				children: ["Last updated: ", new Date(z).toLocaleTimeString()]
 			})
 		]
 	});

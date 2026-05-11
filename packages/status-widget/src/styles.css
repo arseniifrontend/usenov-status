@@ -52,9 +52,7 @@
 
 .usenov-status-widget--glass {
     background:
-        linear-gradient(135deg,
-            rgba(255, 255, 255, 0.1),
-            rgba(255, 255, 255, 0.035)),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
         var(--usenov-status-bg, rgba(10, 10, 10, 0.88));
     backdrop-filter: blur(20px);
     box-shadow:
@@ -64,9 +62,11 @@
 
 .usenov-status-widget--neon {
     background:
-        radial-gradient(circle at top right,
+        radial-gradient(
+            circle at top right,
             color-mix(in srgb, var(--usenov-status-accent) 25%, transparent),
-            transparent 38%),
+            transparent 38%
+        ),
         var(--usenov-status-bg, #030303);
     box-shadow:
         0 0 0 1px color-mix(in srgb, var(--usenov-status-accent) 20%, transparent),
@@ -162,10 +162,15 @@
 }
 
 .usenov-status-widget__service--hover:hover {
-    transform: translateY(-1px);
-    background: color-mix(in srgb,
-            var(--usenov-status-card-bg, rgba(255, 255, 255, 0.055)) 85%,
-            white);
+    background: color-mix(
+        in srgb,
+        var(--usenov-status-card-bg, rgba(255, 255, 255, 0.055)) 85%,
+        white
+    );
+}
+
+.usenov-status-widget__service-top {
+    display: contents;
 }
 
 .usenov-status-widget__service-info {
@@ -197,6 +202,22 @@
     gap: 10px;
 }
 
+.usenov-status-widget__service-stats {
+    display: none;
+}
+
+.usenov-status-widget__stat {
+    min-width: 0;
+}
+
+.usenov-status-widget__stat span {
+    display: block;
+}
+
+.usenov-status-widget__stat strong {
+    display: block;
+}
+
 .usenov-status-widget__latency,
 .usenov-status-widget__code {
     color: var(--usenov-status-muted, #8b8b8b);
@@ -214,33 +235,29 @@
 
 .usenov-status-widget__badge--online {
     color: var(--usenov-status-online, #22c55e);
-    background: color-mix(in srgb,
-            var(--usenov-status-online, #22c55e) 13%,
-            transparent);
+    background: color-mix(in srgb, var(--usenov-status-online, #22c55e) 13%, transparent);
 }
 
 .usenov-status-widget__badge--degraded {
     color: var(--usenov-status-degraded, #eab308);
-    background: color-mix(in srgb,
-            var(--usenov-status-degraded, #eab308) 13%,
-            transparent);
+    background: color-mix(in srgb, var(--usenov-status-degraded, #eab308) 13%, transparent);
 }
 
 .usenov-status-widget__badge--down {
     color: var(--usenov-status-down, #ef4444);
-    background: color-mix(in srgb,
-            var(--usenov-status-down, #ef4444) 13%,
-            transparent);
+    background: color-mix(in srgb, var(--usenov-status-down, #ef4444) 13%, transparent);
 }
 
 .usenov-status-widget__skeleton {
     width: 90px;
     height: 26px;
     border-radius: 999px;
-    background: linear-gradient(90deg,
-            rgba(255, 255, 255, 0.06),
-            rgba(255, 255, 255, 0.14),
-            rgba(255, 255, 255, 0.06));
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.06),
+        rgba(255, 255, 255, 0.14),
+        rgba(255, 255, 255, 0.06)
+    );
     background-size: 200% 100%;
     animation: usenov-status-widget-loading 1.2s infinite linear;
 }
@@ -253,6 +270,254 @@
     font-size: 12px;
 }
 
+/* MODERN — exact Usenov Status style */
+
+.usenov-status-widget--appearance-modern {
+    width: var(--usenov-status-width, 100%);
+    max-width: var(--usenov-status-max-width, 1024px);
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.usenov-status-widget--appearance-modern::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -90px;
+    width: 288px;
+    height: 288px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: var(--usenov-status-accent);
+    opacity: var(--usenov-status-glow-opacity, 0.2);
+    filter: blur(120px);
+    pointer-events: none;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__header {
+    margin-bottom: 40px;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__eyebrow {
+    display: inline-flex;
+    width: fit-content;
+    margin: 0 0 16px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #a1a1aa;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__title {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(40px, 7vw, 60px);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.055em;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__subtitle {
+    margin-top: 16px;
+    color: #71717a;
+    font-size: 16px;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__updated--header {
+    margin-top: 8px;
+    color: #52525b;
+    font-size: 12px;
+}
+
+.usenov-status-widget__summary {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.usenov-status-widget__summary-card {
+    padding: 22.5px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.usenov-status-widget__summary-card p {
+    margin: 0;
+    color: #71717a;
+    font-size: 14px;
+}
+
+.usenov-status-widget__summary-card strong {
+    display: block;
+    margin-top: 8px;
+    color: #ffffff;
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.usenov-status-widget__summary-value--online {
+    color: #34d399 !important;
+}
+
+.usenov-status-widget__summary-value--degraded {
+    color: #facc15 !important;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__list {
+    display: grid;
+    gap: 20px;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__service {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 24px;
+    min-height: auto;
+    padding: 20px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(24px);
+    box-shadow: none;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__service--hover:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__service-top {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 16px;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__service-info strong {
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__service-info span {
+    margin-top: 4px;
+    max-width: 100%;
+    color: #71717a;
+    font-size: 14.3px;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__badge--online {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 96.36px;
+    height: 29px;
+    padding: 15px 16px;
+
+    border-radius: 999px;
+
+    background: #10231C;
+    color: #00D492;
+
+    border: 1px solid #0E3427;
+
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 400;
+
+    box-shadow: none;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__badge--degraded {
+    color: #facc15;
+    background: rgba(234, 179, 8, 0.1);
+    box-shadow: 0 0 0 1px rgba(234, 179, 8, 0.2);
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__badge--down {
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.1);
+    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2);
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__service-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 32px;
+    width: 100%;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__stat {
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__stat span {
+    display: block;
+    margin: 0;
+    color: #52525b;
+    font-size: 12px;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__stat strong {
+    display: block;
+    margin-top: 8px;
+    color: #d4d4d8;
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 400;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__stat:nth-child(2) strong {
+    color: var(--usenov-status-accent);
+    font-weight: 500;
+}
+
+.usenov-status-widget--appearance-modern .usenov-status-widget__service-meta,
+.usenov-status-widget--appearance-modern .usenov-status-widget__latency,
+.usenov-status-widget--appearance-modern .usenov-status-widget__code {
+    display: none;
+}
+
 @keyframes usenov-status-widget-loading {
     from {
         background-position: 200% 0;
@@ -263,22 +528,73 @@
     }
 }
 
+@media (min-width: 640px) {
+    .usenov-status-widget--appearance-modern .usenov-status-widget__service {
+        padding: 24px;
+    }
+
+    .usenov-status-widget--appearance-modern .usenov-status-widget__service-top {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .usenov-status-widget--appearance-modern .usenov-status-widget__service-info strong {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 860px) {
+    .usenov-status-widget__summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 560px) {
     .usenov-status-widget {
         padding: 20px;
     }
 
-    .usenov-status-widget__title {
-        font-size: 23px;
+    .usenov-status-widget--appearance-modern {
+        padding: 0;
     }
 
-    .usenov-status-widget__service {
-        align-items: flex-start;
+    .usenov-status-widget--appearance-modern .usenov-status-widget__header {
+        margin-bottom: 28px;
+    }
+
+    .usenov-status-widget--appearance-modern .usenov-status-widget__title {
+        font-size: 40px;
+    }
+
+    .usenov-status-widget__summary {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 32px;
+    }
+
+    .usenov-status-widget--appearance-modern .usenov-status-widget__service {
+        padding: 20px;
+        gap: 24px;
+        align-items: stretch;
         flex-direction: column;
     }
 
-    .usenov-status-widget__service-meta {
-        width: 100%;
-        justify-content: space-between;
+    .usenov-status-widget--appearance-modern .usenov-status-widget__service-top {
+        flex-direction: column-reverse;
+        gap: 16px;
+    }
+
+    .usenov-status-widget--appearance-modern .usenov-status-widget__service-info span {
+        margin-top: 4px;
+    }
+
+    .usenov-status-widget--appearance-modern .usenov-status-widget__service-stats {
+        grid-template-columns: 1fr;
+        row-gap: 24px;
+    }
+
+    .usenov-status-widget--appearance-modern .usenov-status-widget__stat strong {
+        margin-top: 4px;
     }
 }

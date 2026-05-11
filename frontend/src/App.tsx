@@ -7,6 +7,8 @@ import type { Service } from "./types/status.types";
 
 import "@usenov/status-widget/dist/status-widget.css";
 
+import "@usenov/status-widget/dist/status-widget.css";
+
 function App() {
   const [services, setServices] = useState<Service[]>([]);
   const [checkedAt, setCheckedAt] = useState<string | null>(null);
