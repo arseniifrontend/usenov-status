@@ -1,0 +1,27 @@
+{
+  "name": "@usenov/status-widget",
+  "version": "0.1.0",
+  "description": "Reusable status monitoring widget for websites and APIs.",
+  "type": "module",
+  "main": "dist/status-widget.umd.cjs",
+  "module": "dist/status-widget.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vite-plugin-dts": "latest"
+  }
+}

@@ -1,13 +1,25 @@
 type ServiceStatus = "online" | "degraded" | "down";
 
-type Service = {
+type ServiceInput = {
+	id?: string;
+	name: string;
+	url: string;
+	type?: "website" | "api";
+};
+
+type ServiceResult = {
 	id: string;
 	name: string;
 	url: string;
 	type: "website" | "api";
-};
+	status: ServiceStatus;
+	statusCode: number | null;
+	responseTime: number | null;
+	checkedAt: string;
+	error?: string;
+	};
 
-const services: Service[] = [
+const defaultServices: ServiceInput[] = [
 	{
 		id: "usenov",
 		name: "Usenov",
@@ -35,15 +47,17 @@ const services: Service[] = [
 ];
 
 function getStatus(statusCode: number): ServiceStatus {
-	if (statusCode >= 200 && statusCode < 400) {
-		return "online";
-	}
-
-	if (statusCode >= 400 && statusCode < 500) {
-		return "degraded";
-	}
-
+	if (statusCode >= 200 && statusCode < 400) return "online";
+	if (statusCode >= 400 && statusCode < 500) return "degraded";
 	return "down";
+}
+
+function createId(name: string) {
+	return name
+		.toLowerCase()
+		.trim()
+		.replace(/\s+/g, "-")
+		.replace(/[^a-z0-9-]/g, "");
 }
 
 function json(data: unknown, status = 200) {
@@ -52,11 +66,13 @@ function json(data: unknown, status = 200) {
 		headers: {
 		"Content-Type": "application/json",
 		"Access-Control-Allow-Origin": "*",
+		"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+		"Access-Control-Allow-Headers": "Content-Type",
 		},
 	});
-	}
+}
 
-	async function checkService(service: Service) {
+async function checkService(service: ServiceInput): Promise<ServiceResult> {
 	const startedAt = Date.now();
 
 	try {
@@ -66,7 +82,10 @@ function json(data: unknown, status = 200) {
 		});
 
 		return {
-		...service,
+		id: service.id ?? createId(service.name),
+		name: service.name,
+		url: service.url,
+		type: service.type ?? "website",
 		status: getStatus(response.status),
 		statusCode: response.status,
 		responseTime: Date.now() - startedAt,
@@ -74,17 +93,27 @@ function json(data: unknown, status = 200) {
 		};
 	} catch (error) {
 		return {
-		...service,
+		id: service.id ?? createId(service.name),
+		name: service.name,
+		url: service.url,
+		type: service.type ?? "website",
 		status: "down",
 		statusCode: null,
 		responseTime: null,
 		checkedAt: new Date().toISOString(),
-		error:
-			error instanceof Error
-			? error.message
-			: "Unknown error",
+		error: error instanceof Error ? error.message : "Unknown error",
 		};
 	}
+}
+
+async function checkServices(services: ServiceInput[]) {
+	const results = await Promise.all(services.map(checkService));
+
+	return {
+		success: true,
+		checkedAt: new Date().toISOString(),
+		services: results,
+	};
 }
 
 export default {
@@ -92,28 +121,41 @@ export default {
 		const url = new URL(request.url);
 
 		if (request.method === "OPTIONS") {
-		return new Response(null, {
-			headers: {
-			"Access-Control-Allow-Origin": "*",
-			"Access-Control-Allow-Methods": "GET, OPTIONS",
-			"Access-Control-Allow-Headers": "Content-Type",
-			},
-		});
+		return json(null);
 		}
 
-		if (
-		url.pathname === "/" ||
-		url.pathname === "/api/status"
-		) {
-		const results = await Promise.all(
-			services.map(checkService)
-		);
+		if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/api/status")) {
+		const data = await checkServices(defaultServices);
+		return json(data);
+		}
 
-		return json({
-			success: true,
-			checkedAt: new Date().toISOString(),
-			services: results,
-		});
+		if (request.method === "POST" && url.pathname === "/api/check") {
+		try {
+			const body = await request.json<{ services?: ServiceInput[] }>();
+
+			if (!body.services || !Array.isArray(body.services)) {
+			return json(
+				{
+				success: false,
+				message: "services array is required",
+				},
+				400
+			);
+			}
+
+			const safeServices = body.services.slice(0, 10);
+
+			const data = await checkServices(safeServices);
+			return json(data);
+		} catch {
+			return json(
+			{
+				success: false,
+				message: "Invalid JSON body",
+			},
+			400
+			);
+		}
 		}
 
 		return json(

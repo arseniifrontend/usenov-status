@@ -5,6 +5,9 @@ import { getServicesStatus } from "./services/status.service";
 
 import type { Service } from "./types/status.types";
 
+import { StatusWidget } from "@usenov/status-widget";
+import "@usenov/status-widget/dist/status-widget.css";
+
 function App() {
   const [services, setServices] = useState<Service[]>([]);
   const [checkedAt, setCheckedAt] = useState<string | null>(null);
@@ -135,7 +138,7 @@ function App() {
           {services.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}
-        </section>
+        </section>Ц
 
         <footer className="mt-16 border-t border-white/10 pt-8">
           <div className="flex flex-col gap-3 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
