@@ -52,6 +52,9 @@ export type StatusWidgetProps = {
     showEyebrow?: boolean;
     showPulse?: boolean;
     showRootStatus?: boolean;
+    showServiceType?: boolean;
+    eyebrowText?: string;
+    rootStatusText?: string;
     showSummary?: boolean;
     summaryLabels?: {
         total?: string;
@@ -60,5 +63,5 @@ export type StatusWidgetProps = {
         avgLatency?: string;
     };
 };
-export declare function StatusWidget({ title, services, apiUrl, theme, appearance, accentColor, rounded, colors, refreshInterval, showUrls, showResponseTime, showStatusCode, showLastUpdated, showHeader, enableHover, onlineLabel, degradedLabel, downLabel, className, width, maxWidth, fullWidth, showGlow, showEyebrow, showPulse, showRootStatus, showSummary, summaryLabels, }: StatusWidgetProps): import("react/jsx-runtime").JSX.Element;
+export declare function StatusWidget({ title, services, apiUrl, theme, appearance, accentColor, rounded, colors, refreshInterval, showUrls, showResponseTime, showStatusCode, showLastUpdated, showHeader, enableHover, onlineLabel, degradedLabel, downLabel, className, width, maxWidth, fullWidth, showGlow, showEyebrow, showPulse, showRootStatus, showServiceType, eyebrowText, rootStatusText, showSummary, summaryLabels, }: StatusWidgetProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=StatusWidget.d.ts.map

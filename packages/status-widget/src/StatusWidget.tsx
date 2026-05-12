@@ -71,6 +71,11 @@ export type StatusWidgetProps = {
   showPulse?: boolean;
   showRootStatus?: boolean;
 
+  showServiceType?: boolean;
+
+  eyebrowText?: string;
+  rootStatusText?: string;
+
   showSummary?: boolean;
   summaryLabels?: {
     total?: string;
@@ -164,6 +169,11 @@ export function StatusWidget({
   showEyebrow = true,
   showPulse = true,
   showRootStatus = true,
+
+  showServiceType = true,
+
+  eyebrowText,
+  rootStatusText,
 
   showSummary = true,
   summaryLabels,
@@ -277,9 +287,7 @@ export function StatusWidget({
                   ? isModern
                     ? "Checking services..."
                     : "Refreshing"
-                  : isModern
-                    ? "Live monitoring"
-                    : "Live status"}
+                  : eyebrowText ?? (isModern ? "Live monitoring" : "Live status")}
               </p>
             )}
 
@@ -287,7 +295,7 @@ export function StatusWidget({
 
             {showRootStatus && (
               <p className="usenov-status-widget__subtitle">
-                {loading ? "Checking services..." : rootStatus}
+                {loading ? "Checking services..." : rootStatusText ?? rootStatus}
               </p>
             )}
 
@@ -392,10 +400,12 @@ export function StatusWidget({
                   </div>
                 )}
 
-                <div className="usenov-status-widget__stat">
-                  <span>Type</span>
-                  <strong>{service.type ?? "website"}</strong>
-                </div>
+                {showServiceType && (
+                  <div className="usenov-status-widget__stat">
+                    <span>Type</span>
+                    <strong>{service.type ?? "website"}</strong>
+                  </div>
+                )}
               </div>
             </article>
           ))}

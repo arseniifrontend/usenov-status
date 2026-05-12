@@ -9,6 +9,14 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/status-widget.js",
+      "require": "./dist/status-widget.umd.cjs"
+    },
+    "./dist/status-widget.css": "./dist/status-widget.css"
+  },
   "scripts": {
     "build": "vite build"
   },

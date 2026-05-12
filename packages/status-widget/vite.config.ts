@@ -12,20 +12,26 @@ export default defineConfig({
 
     build: {
         lib: {
-        entry: "src/index.ts",
-        name: "UsenovStatusWidget",
-        fileName: "status-widget",
-        formats: ["es", "umd"],
+            entry: "src/index.ts",
+            name: "UsenovStatusWidget",
+            fileName: "status-widget",
+            formats: ["es", "umd"],
         },
 
         rollupOptions: {
-        external: ["react", "react-dom", "react/jsx-runtime"],
+        external: [
+            "react",
+            "react-dom",
+            "react-dom/client",
+            "react/jsx-runtime",
+        ],
 
         output: {
             globals: {
-            react: "React",
-            "react-dom": "ReactDOM",
-            "react/jsx-runtime": "jsxRuntime",
+                react: "React",
+                "react-dom": "ReactDOM",
+                "react-dom/client": "ReactDOM",
+                "react/jsx-runtime": "jsxRuntime",
             },
         },
         },
