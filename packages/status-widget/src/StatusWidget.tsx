@@ -52,6 +52,7 @@ export type StatusWidgetProps = {
   showStatusCode?: boolean;
   showLastUpdated?: boolean;
   showHeader?: boolean;
+  showTitle?: boolean;
 
   enableHover?: boolean;
 
@@ -151,6 +152,7 @@ export function StatusWidget({
   showStatusCode = false,
   showLastUpdated = true,
   showHeader = true,
+  showTitle = true,
 
   enableHover = true,
 
@@ -291,7 +293,9 @@ export function StatusWidget({
               </p>
             )}
 
-            <h3 className="usenov-status-widget__title">{title}</h3>
+            {showTitle && (
+              <h3 className="usenov-status-widget__title">{title}</h3>
+            )}
 
             {showRootStatus && (
               <p className="usenov-status-widget__subtitle">

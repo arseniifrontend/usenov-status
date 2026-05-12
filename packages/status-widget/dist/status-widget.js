@@ -17,23 +17,23 @@ async function c(e, t) {
 	if (!n.ok) throw Error("Failed to check services");
 	return n.json();
 }
-function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = "glass", appearance: p = "default", accentColor: ee = "#22c55e", rounded: m = "2xl", colors: h, refreshInterval: g = 3e4, showUrls: _ = !0, showResponseTime: v = !0, showStatusCode: y = !1, showLastUpdated: b = !0, showHeader: x = !0, enableHover: S = !0, onlineLabel: C = "Operational", degradedLabel: w = "Degraded", downLabel: T = "Down", className: E = "", width: D, maxWidth: O = "620px", fullWidth: k = !1, showGlow: A = !0, showEyebrow: j = !0, showPulse: M = !0, showRootStatus: N = !0, showServiceType: P = !0, eyebrowText: F, rootStatusText: I, showSummary: L = !0, summaryLabels: R }) {
-	let [z, B] = n([]), [V, H] = n(null), [U, W] = n(!0), [G, K] = n(!1), [q, J] = n(null);
-	async function Y(e = !1) {
+function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = "glass", appearance: p = "default", accentColor: ee = "#22c55e", rounded: m = "2xl", colors: h, refreshInterval: g = 3e4, showUrls: _ = !0, showResponseTime: v = !0, showStatusCode: y = !1, showLastUpdated: b = !0, showHeader: x = !0, showTitle: S = !0, enableHover: C = !0, onlineLabel: w = "Operational", degradedLabel: T = "Degraded", downLabel: E = "Down", className: D = "", width: O, maxWidth: k = "620px", fullWidth: A = !1, showGlow: j = !0, showEyebrow: M = !0, showPulse: N = !0, showRootStatus: P = !0, showServiceType: F = !0, eyebrowText: I, rootStatusText: L, showSummary: R = !0, summaryLabels: z }) {
+	let [B, V] = n([]), [H, U] = n(null), [W, G] = n(!0), [K, q] = n(!1), [J, Y] = n(null);
+	async function X(e = !1) {
 		try {
-			e && K(!0);
+			e && q(!0);
 			let t = await c(d, u);
-			B(t.services), H(t.checkedAt), J(null);
+			V(t.services), U(t.checkedAt), Y(null);
 		} catch {
-			J("Failed to load service status");
+			Y("Failed to load service status");
 		} finally {
-			W(!1), K(!1);
+			G(!1), q(!1);
 		}
 	}
 	e(() => {
-		if (Y(), !g) return;
+		if (X(), !g) return;
 		let e = window.setInterval(() => {
-			Y(!0);
+			X(!0);
 		}, g);
 		return () => window.clearInterval(e);
 	}, [
@@ -41,19 +41,19 @@ function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = 
 		g,
 		JSON.stringify(u)
 	]);
-	let X = t(() => s(z), [z]), Z = t(() => {
-		let e = U ? [] : z;
+	let Z = t(() => s(B), [B]), Q = t(() => {
+		let e = W ? [] : B;
 		return {
-			total: U ? u.length : e.length,
+			total: W ? u.length : e.length,
 			online: e.filter((e) => e.status === "online").length,
 			degraded: e.filter((e) => e.status === "degraded").length,
 			avgLatency: e.length > 0 ? Math.round(e.reduce((e, t) => e + (t.responseTime ?? 0), 0) / e.length) : 0
 		};
 	}, [
-		z,
-		U,
+		B,
+		W,
 		u.length
-	]), Q = {
+	]), te = {
 		"--usenov-status-accent": ee,
 		"--usenov-status-bg": h?.background,
 		"--usenov-status-card-bg": h?.cardBackground,
@@ -63,13 +63,13 @@ function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = 
 		"--usenov-status-online": h?.online,
 		"--usenov-status-degraded": h?.degraded,
 		"--usenov-status-down": h?.down,
-		"--usenov-status-width": k ? "100%" : D,
-		"--usenov-status-max-width": k ? "100%" : O,
-		"--usenov-status-glow-opacity": A ? "0.16" : "0"
-	}, te = {
-		onlineLabel: C,
-		degradedLabel: w,
-		downLabel: T
+		"--usenov-status-width": A ? "100%" : O,
+		"--usenov-status-max-width": A ? "100%" : k,
+		"--usenov-status-glow-opacity": j ? "0.16" : "0"
+	}, ne = {
+		onlineLabel: w,
+		degradedLabel: T,
+		downLabel: E
 	}, $ = p === "modern";
 	return /* @__PURE__ */ i("section", {
 		className: [
@@ -77,76 +77,76 @@ function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = 
 			`usenov-status-widget--${f}`,
 			`usenov-status-widget--${m}`,
 			`usenov-status-widget--appearance-${p}`,
-			E
+			D
 		].join(" "),
-		style: Q,
+		style: te,
 		children: [
 			x && /* @__PURE__ */ i("header", {
 				className: "usenov-status-widget__header",
 				children: [/* @__PURE__ */ i("div", { children: [
-					j && /* @__PURE__ */ r("p", {
+					M && /* @__PURE__ */ r("p", {
 						className: "usenov-status-widget__eyebrow",
-						children: G ? $ ? "Checking services..." : "Refreshing" : F ?? ($ ? "Live monitoring" : "Live status")
+						children: K ? $ ? "Checking services..." : "Refreshing" : I ?? ($ ? "Live monitoring" : "Live status")
 					}),
-					/* @__PURE__ */ r("h3", {
+					S && /* @__PURE__ */ r("h3", {
 						className: "usenov-status-widget__title",
 						children: l
 					}),
-					N && /* @__PURE__ */ r("p", {
+					P && /* @__PURE__ */ r("p", {
 						className: "usenov-status-widget__subtitle",
-						children: U ? "Checking services..." : I ?? X
+						children: W ? "Checking services..." : L ?? Z
 					}),
-					b && V && $ && /* @__PURE__ */ i("p", {
+					b && H && $ && /* @__PURE__ */ i("p", {
 						className: "usenov-status-widget__updated usenov-status-widget__updated--header",
-						children: ["Last updated: ", new Date(V).toLocaleTimeString()]
+						children: ["Last updated: ", new Date(H).toLocaleTimeString()]
 					})
-				] }), M && !$ && /* @__PURE__ */ r("span", { className: "usenov-status-widget__pulse" })]
+				] }), N && !$ && /* @__PURE__ */ r("span", { className: "usenov-status-widget__pulse" })]
 			}),
-			q && /* @__PURE__ */ r("div", {
+			J && /* @__PURE__ */ r("div", {
 				className: "usenov-status-widget__error",
-				children: q
+				children: J
 			}),
-			$ && L && /* @__PURE__ */ i("div", {
+			$ && R && /* @__PURE__ */ i("div", {
 				className: "usenov-status-widget__summary",
 				children: [
 					/* @__PURE__ */ i("div", {
 						className: "usenov-status-widget__summary-card",
-						children: [/* @__PURE__ */ r("p", { children: R?.total ?? "Services" }), /* @__PURE__ */ r("strong", { children: Z.total })]
+						children: [/* @__PURE__ */ r("p", { children: z?.total ?? "Services" }), /* @__PURE__ */ r("strong", { children: Q.total })]
 					}),
 					/* @__PURE__ */ i("div", {
 						className: "usenov-status-widget__summary-card",
-						children: [/* @__PURE__ */ r("p", { children: R?.online ?? "Operational" }), /* @__PURE__ */ r("strong", {
+						children: [/* @__PURE__ */ r("p", { children: z?.online ?? "Operational" }), /* @__PURE__ */ r("strong", {
 							className: "usenov-status-widget__summary-value--online",
-							children: Z.online
+							children: Q.online
 						})]
 					}),
 					/* @__PURE__ */ i("div", {
 						className: "usenov-status-widget__summary-card",
-						children: [/* @__PURE__ */ r("p", { children: R?.degraded ?? "Degraded" }), /* @__PURE__ */ r("strong", {
+						children: [/* @__PURE__ */ r("p", { children: z?.degraded ?? "Degraded" }), /* @__PURE__ */ r("strong", {
 							className: "usenov-status-widget__summary-value--degraded",
-							children: Z.degraded
+							children: Q.degraded
 						})]
 					}),
 					/* @__PURE__ */ i("div", {
 						className: "usenov-status-widget__summary-card",
-						children: [/* @__PURE__ */ r("p", { children: R?.avgLatency ?? "Avg latency" }), /* @__PURE__ */ i("strong", { children: [Z.avgLatency, " ms"] })]
+						children: [/* @__PURE__ */ r("p", { children: z?.avgLatency ?? "Avg latency" }), /* @__PURE__ */ i("strong", { children: [Q.avgLatency, " ms"] })]
 					})
 				]
 			}),
 			/* @__PURE__ */ i("div", {
 				className: "usenov-status-widget__list",
-				children: [U && u.map((e) => /* @__PURE__ */ i("article", {
+				children: [W && u.map((e) => /* @__PURE__ */ i("article", {
 					className: [
 						"usenov-status-widget__service",
 						"usenov-status-widget__service--loading",
-						S ? "usenov-status-widget__service--hover" : ""
+						C ? "usenov-status-widget__service--hover" : ""
 					].join(" "),
 					children: [/* @__PURE__ */ i("div", {
 						className: "usenov-status-widget__service-info",
 						children: [/* @__PURE__ */ r("strong", { children: e.name }), _ && /* @__PURE__ */ r("span", { children: e.url })]
 					}), /* @__PURE__ */ r("div", { className: "usenov-status-widget__skeleton" })]
-				}, e.url)), !U && z.map((e) => /* @__PURE__ */ i("article", {
-					className: ["usenov-status-widget__service", S ? "usenov-status-widget__service--hover" : ""].join(" "),
+				}, e.url)), !W && B.map((e) => /* @__PURE__ */ i("article", {
+					className: ["usenov-status-widget__service", C ? "usenov-status-widget__service--hover" : ""].join(" "),
 					children: [/* @__PURE__ */ i("div", {
 						className: "usenov-status-widget__service-top",
 						children: [/* @__PURE__ */ i("div", {
@@ -154,7 +154,7 @@ function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = 
 							children: [/* @__PURE__ */ r("strong", { children: e.name }), _ && /* @__PURE__ */ r("span", { children: e.url })]
 						}), /* @__PURE__ */ r("span", {
 							className: ["usenov-status-widget__badge", `usenov-status-widget__badge--${e.status}`].join(" "),
-							children: o(e.status, te)
+							children: o(e.status, ne)
 						})]
 					}), /* @__PURE__ */ i("div", {
 						className: "usenov-status-widget__service-stats",
@@ -167,7 +167,7 @@ function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = 
 								className: "usenov-status-widget__stat",
 								children: [/* @__PURE__ */ r("span", { children: "Response time" }), /* @__PURE__ */ i("strong", { children: [e.responseTime ?? "--", " ms"] })]
 							}),
-							P && /* @__PURE__ */ i("div", {
+							F && /* @__PURE__ */ i("div", {
 								className: "usenov-status-widget__stat",
 								children: [/* @__PURE__ */ r("span", { children: "Type" }), /* @__PURE__ */ r("strong", { children: e.type ?? "website" })]
 							})
@@ -175,9 +175,9 @@ function l({ title: l = "System Status", services: u, apiUrl: d = a, theme: f = 
 					})]
 				}, `${e.name}-${e.url}`))]
 			}),
-			b && V && !$ && /* @__PURE__ */ i("p", {
+			b && H && !$ && /* @__PURE__ */ i("p", {
 				className: "usenov-status-widget__updated",
-				children: ["Last updated: ", new Date(V).toLocaleTimeString()]
+				children: ["Last updated: ", new Date(H).toLocaleTimeString()]
 			})
 		]
 	});

@@ -114,6 +114,7 @@ export function WidgetStudioPage() {
   const [showServiceType, setShowServiceType] = useState(true);
   const [showEyebrow, setShowEyebrow] = useState(true);
   const [showRootStatus, setShowRootStatus] = useState(true);
+  const [showTitle, setShowTitle] = useState(true);
 
   const [serviceName, setServiceName] = useState("Usenov");
   const [serviceUrl, setServiceUrl] = useState("https://usenov.com");
@@ -122,30 +123,35 @@ export function WidgetStudioPage() {
   const [copied, setCopied] = useState(false);
 
   const generatedCode = useMemo(() => {
-    return `<StatusWidget
-    appearance="${appearance}"
-    ${appearance === "default" ? `theme="${theme}"` : ""}
-    accentColor="${accentColor}"
-    title="${title}"
-    fullWidth
-    maxWidth="${maxWidth}"
-    ${showStatusCode ? "showStatusCode" : ""}
-    ${showResponseTime ? "showResponseTime" : ""}
-    ${showSummary ? "showSummary" : "showSummary={false}"}
-    ${showUrls ? "showUrls" : "showUrls={false}"}
-    ${showLastUpdated ? "showLastUpdated" : "showLastUpdated={false}"}
-    ${showGlow ? "showGlow" : "showGlow={false}"}
-    ${showServiceType ? "showServiceType" : "showServiceType={false}"}
-    ${showEyebrow ? "showEyebrow" : "showEyebrow={false}"}
-    ${showRootStatus ? "showRootStatus" : "showRootStatus={false}"}
-    services={[
-      {
-        name: "${serviceName}",
-        url: "${serviceUrl}",
-        type: "${serviceType}",
-      },
-    ]}
-  />`;
+    return [
+      `<StatusWidget`,
+      `  appearance="${appearance}"`,
+      appearance === "default" ? `  theme="${theme}"` : null,
+      `  accentColor="${accentColor}"`,
+      `  title="${title}"`,
+      `  fullWidth`,
+      `  maxWidth="${maxWidth}"`,
+      `  showTitle={${showTitle}}`,
+      `  showStatusCode={${showStatusCode}}`,
+      `  showResponseTime={${showResponseTime}}`,
+      `  showSummary={${showSummary}}`,
+      `  showUrls={${showUrls}}`,
+      `  showLastUpdated={${showLastUpdated}}`,
+      `  showGlow={${showGlow}}`,
+      `  showServiceType={${showServiceType}}`,
+      `  showEyebrow={${showEyebrow}}`,
+      `  showRootStatus={${showRootStatus}}`,
+      `  services={[`,
+      `    {`,
+      `      name: "${serviceName}",`,
+      `      url: "${serviceUrl}",`,
+      `      type: "${serviceType}",`,
+      `    },`,
+      `  ]}`,
+      `/>`,
+    ]
+      .filter(Boolean)
+      .join("\n");
   }, [
     appearance,
     theme,
@@ -164,6 +170,7 @@ export function WidgetStudioPage() {
     showServiceType,
     showEyebrow,
     showRootStatus,
+    showTitle,
   ]);
 
   async function copyCode() {
@@ -315,6 +322,7 @@ export function WidgetStudioPage() {
 
               <div className="grid gap-3 rounded-2xl border border-white/10 bg-black/20 p-4">
                 {[
+                  ["Title", showTitle, setShowTitle],
                   ["Status code", showStatusCode, setShowStatusCode],
                   ["Response time", showResponseTime, setShowResponseTime],
                   ["Service type", showServiceType, setShowServiceType],
@@ -381,6 +389,7 @@ export function WidgetStudioPage() {
                   showEyebrow={showEyebrow}
                   showRootStatus={showRootStatus}
                   showGlow={showGlow}
+                  {...({ showTitle } as { showTitle: boolean })}
                   {...({ showServiceType } as { showServiceType: boolean })}
                   services={[
                     {
