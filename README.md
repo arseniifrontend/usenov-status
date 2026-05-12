@@ -35,7 +35,9 @@
 - Automatic status refresh
 - Response time tracking
 - HTTP status code tracking
+- Visual Widget Studio with instant React code generation
 - Multiple widget appearances
+- Advanced widget customization system
 - Modern SaaS-inspired UI
 - Fully responsive dashboard
 - Glassmorphism and neon UI modes
@@ -46,7 +48,6 @@
 - Cloudflare Workers monitoring API
 - Vercel frontend deployment
 - Full TypeScript architecture
-- Visual Widget Studio with instant React code generation
 
 <br>
 
