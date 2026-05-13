@@ -3,7 +3,7 @@
 <br>
 
 <p align="center">
-  Beautiful open-source monitoring widgets and infrastructure status dashboards for modern web services.
+  Beautiful open-source status dashboards and customizable monitoring widgets for modern web infrastructure.
 </p>
 
 <br>
@@ -35,7 +35,9 @@
 - Automatic status refresh
 - Response time tracking
 - HTTP status code tracking
+- Visual Widget Studio with instant React code generation
 - Multiple widget appearances
+- Advanced widget customization system
 - Modern SaaS-inspired UI
 - Fully responsive dashboard
 - Glassmorphism and neon UI modes
@@ -54,6 +56,54 @@
 ```txt
 https://status.usenov.com
 ````
+
+<br>
+
+## 🧪 Widget Studio
+
+Build and customize your monitoring widget visually.
+
+Usenov Status now includes a full visual widget builder where you can:
+
+* customize appearance and themes
+* change accent colors
+* toggle widget sections
+* configure monitoring services
+* generate ready-to-use React code instantly
+
+<br>
+
+<p align="center"> <img width="950" alt="Widget Studio" src="https://github.com/user-attachments/assets/1189b516-36fa-4cec-8d89-a3f366b1f624" style="border-radius: 18px;" /> </p> 
+
+<br>
+
+### ⚡ Generated React Code
+
+The studio automatically generates clean React code based on your configuration.
+
+```tsx
+<StatusWidget
+  appearance="modern"
+  accentColor="#04AE79"
+  fullWidth
+  maxWidth="1024px"
+  showStatusCode={true}
+  showResponseTime={true}
+  showSummary={true}
+  services={[
+    {
+      name: "Usenov",
+      url: "https://usenov.com",
+      type: "website",
+    },
+  ]}
+/>
+```
+
+<br>
+
+### 🌐 Open Studio
+https://status.usenov.com/studio
 
 <br>
 
@@ -492,34 +542,40 @@ Example:
 
 ## ⚙️ Widget Props
 
-| Prop               | Type                                     | Default           | Description                    |
-| ------------------ | ---------------------------------------- | ----------------- | ------------------------------ |
-| `title`            | `string`                                 | `"System Status"` | Widget title                   |
-| `services`         | `StatusWidgetInputService[]`             | Required          | List of websites/APIs to check |
-| `apiUrl`           | `string`                                 | Hosted Worker URL | Worker API URL                 |
-| `appearance`       | `"default" \| "modern"`                  | `"default"`       | Widget appearance              |
-| `theme`            | `"dark" \| "light" \| "glass" \| "neon"` | `"glass"`         | Visual theme                   |
-| `accentColor`      | `string`                                 | `"#22c55e"`       | Main accent color              |
-| `rounded`          | `"md" \| "xl" \| "2xl"`                  | `"2xl"`           | Border radius preset           |
-| `refreshInterval`  | `number`                                 | `30000`           | Auto-refresh interval in ms    |
-| `fullWidth`        | `boolean`                                | `false`           | Makes widget width 100%        |
-| `maxWidth`         | `string`                                 | `"620px"`         | Max widget width               |
-| `width`            | `string`                                 | `"100%"`          | Custom widget width            |
-| `showGlow`         | `boolean`                                | `true`            | Shows background glow          |
-| `showUrls`         | `boolean`                                | `true`            | Shows service URLs             |
-| `showResponseTime` | `boolean`                                | `true`            | Shows response time            |
-| `showStatusCode`   | `boolean`                                | `false`           | Shows HTTP status code         |
-| `showSummary`      | `boolean`                                | `true`            | Shows summary cards            |
-| `showLastUpdated`  | `boolean`                                | `true`            | Shows last update time         |
-| `showHeader`       | `boolean`                                | `true`            | Shows widget header            |
-| `showEyebrow`      | `boolean`                                | `true`            | Shows status eyebrow           |
-| `showPulse`        | `boolean`                                | `true`            | Shows pulse indicator          |
-| `showRootStatus`   | `boolean`                                | `true`            | Shows global status text       |
-| `enableHover`      | `boolean`                                | `true`            | Enables hover effects          |
-| `onlineLabel`      | `string`                                 | `"Operational"`   | Online status label            |
-| `degradedLabel`    | `string`                                 | `"Degraded"`      | Degraded status label          |
-| `downLabel`        | `string`                                 | `"Down"`          | Down status label              |
-| `colors`           | `object`                                 | Optional          | Custom color tokens            |
+| Prop                | Type                                     | Default           | Description                              |
+| ------------------- | ---------------------------------------- | ----------------- | ---------------------------------------- |
+| `title`             | `string`                                 | `"System Status"` | Widget title                             |
+| `services`          | `StatusWidgetInputService[]`             | Required          | List of websites/APIs to check           |
+| `apiUrl`            | `string`                                 | Hosted Worker URL | Worker API URL                           |
+| `appearance`        | `"default" \| "modern"`                  | `"default"`       | Widget appearance preset                 |
+| `theme`             | `"dark" \| "light" \| "glass" \| "neon"` | `"glass"`         | Widget theme                             |
+| `accentColor`       | `string`                                 | `"#22c55e"`       | Main accent color                        |
+| `rounded`           | `"md" \| "xl" \| "2xl"`                  | `"2xl"`           | Border radius preset                     |
+| `refreshInterval`   | `number`                                 | `30000`           | Auto-refresh interval in milliseconds    |
+| `fullWidth`         | `boolean`                                | `false`           | Makes widget width 100%                  |
+| `maxWidth`          | `string`                                 | `"620px"`         | Maximum widget width                     |
+| `width`             | `string`                                 | `"100%"`          | Custom widget width                      |
+| `showGlow`          | `boolean`                                | `true`            | Shows background glow                    |
+| `showUrls`          | `boolean`                                | `true`            | Shows service URLs                       |
+| `showResponseTime`  | `boolean`                                | `true`            | Shows response time                      |
+| `showStatusCode`    | `boolean`                                | `false`           | Shows HTTP status codes                  |
+| `showSummary`       | `boolean`                                | `true`            | Shows summary cards                      |
+| `showLastUpdated`   | `boolean`                                | `true`            | Shows last update time                   |
+| `showHeader`        | `boolean`                                | `true`            | Shows widget header                      |
+| `showTitle`         | `boolean`                                | `true`            | Shows widget title                       |
+| `showEyebrow`       | `boolean`                                | `true`            | Shows monitoring eyebrow label           |
+| `showPulse`         | `boolean`                                | `true`            | Shows pulse indicator                    |
+| `showRootStatus`    | `boolean`                                | `true`            | Shows global infrastructure status       |
+| `showServiceType`   | `boolean`                                | `true`            | Shows service type badges                |
+| `enableHover`       | `boolean`                                | `true`            | Enables hover animations                 |
+| `onlineLabel`       | `string`                                 | `"Operational"`   | Online status label                      |
+| `degradedLabel`     | `string`                                 | `"Degraded"`      | Degraded status label                    |
+| `downLabel`         | `string`                                 | `"Down"`          | Offline status label                     |
+| `eyebrowText`       | `string`                                 | Auto              | Custom eyebrow text                      |
+| `rootStatusText`    | `string`                                 | Auto              | Custom global status text                |
+| `summaryLabels`     | `object`                                 | Optional          | Custom summary card labels               |
+| `colors`            | `object`                                 | Optional          | Custom widget color tokens               |
+| `className`         | `string`                                 | `""`              | Additional custom classes                |
 
 <br>
 
