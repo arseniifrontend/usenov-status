@@ -17,7 +17,7 @@ type ServiceResult = {
 	responseTime: number | null;
 	checkedAt: string;
 	error?: string;
-	};
+};
 
 const defaultServices: ServiceInput[] = [
 	{
@@ -44,6 +44,12 @@ const defaultServices: ServiceInput[] = [
 		url: "https://borutska-brows.usenov.com/",
 		type: "website",
 	},
+	{
+		id: "artify-api",
+		name: "Artify API",
+		url: "https://api.artify.usenov.com/api/auth/health",
+		type: "api",
+	},
 ];
 
 function getStatus(statusCode: number): ServiceStatus {
@@ -64,10 +70,10 @@ function json(data: unknown, status = 200) {
 	return new Response(JSON.stringify(data), {
 		status,
 		headers: {
-		"Content-Type": "application/json",
-		"Access-Control-Allow-Origin": "*",
-		"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-		"Access-Control-Allow-Headers": "Content-Type",
+			"Content-Type": "application/json",
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+			"Access-Control-Allow-Headers": "Content-Type",
 		},
 	});
 }
@@ -77,31 +83,31 @@ async function checkService(service: ServiceInput): Promise<ServiceResult> {
 
 	try {
 		const response = await fetch(service.url, {
-		method: "GET",
-		signal: AbortSignal.timeout(5000),
+			method: "GET",
+			signal: AbortSignal.timeout(5000),
 		});
 
 		return {
-		id: service.id ?? createId(service.name),
-		name: service.name,
-		url: service.url,
-		type: service.type ?? "website",
-		status: getStatus(response.status),
-		statusCode: response.status,
-		responseTime: Date.now() - startedAt,
-		checkedAt: new Date().toISOString(),
+			id: service.id ?? createId(service.name),
+			name: service.name,
+			url: service.url,
+			type: service.type ?? "website",
+			status: getStatus(response.status),
+			statusCode: response.status,
+			responseTime: Date.now() - startedAt,
+			checkedAt: new Date().toISOString(),
 		};
 	} catch (error) {
 		return {
-		id: service.id ?? createId(service.name),
-		name: service.name,
-		url: service.url,
-		type: service.type ?? "website",
-		status: "down",
-		statusCode: null,
-		responseTime: null,
-		checkedAt: new Date().toISOString(),
-		error: error instanceof Error ? error.message : "Unknown error",
+			id: service.id ?? createId(service.name),
+			name: service.name,
+			url: service.url,
+			type: service.type ?? "website",
+			status: "down",
+			statusCode: null,
+			responseTime: null,
+			checkedAt: new Date().toISOString(),
+			error: error instanceof Error ? error.message : "Unknown error",
 		};
 	}
 }
@@ -121,49 +127,52 @@ export default {
 		const url = new URL(request.url);
 
 		if (request.method === "OPTIONS") {
-		return json(null);
+			return json(null);
 		}
 
-		if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/api/status")) {
-		const data = await checkServices(defaultServices);
-		return json(data);
+		if (
+			request.method === "GET" &&
+			(url.pathname === "/" || url.pathname === "/api/status")
+		) {
+			const data = await checkServices(defaultServices);
+			return json(data);
 		}
 
 		if (request.method === "POST" && url.pathname === "/api/check") {
-		try {
-			const body = await request.json<{ services?: ServiceInput[] }>();
+			try {
+				const body = await request.json<{ services?: ServiceInput[] }>();
 
-			if (!body.services || !Array.isArray(body.services)) {
-			return json(
-				{
-				success: false,
-				message: "services array is required",
-				},
-				400
-			);
+				if (!body.services || !Array.isArray(body.services)) {
+					return json(
+						{
+							success: false,
+							message: "services array is required",
+						},
+						400
+					);
+				}
+
+				const safeServices = body.services.slice(0, 10);
+
+				const data = await checkServices(safeServices);
+				return json(data);
+			} catch {
+				return json(
+					{
+						success: false,
+						message: "Invalid JSON body",
+					},
+					400
+				);
 			}
-
-			const safeServices = body.services.slice(0, 10);
-
-			const data = await checkServices(safeServices);
-			return json(data);
-		} catch {
-			return json(
-			{
-				success: false,
-				message: "Invalid JSON body",
-			},
-			400
-			);
-		}
 		}
 
 		return json(
-		{
-			success: false,
-			message: "Not found",
-		},
-		404
+			{
+				success: false,
+				message: "Not found",
+			},
+			404
 		);
 	},
 };
