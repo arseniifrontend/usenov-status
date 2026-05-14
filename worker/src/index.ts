@@ -19,6 +19,7 @@ type ServiceResult = {
 	error?: string;
 };
 
+const ARTIFY_HEALTH_URL = 'https://api.artify.usenov.com/api/auth/health';
 const ARTIFY_CACHE_TTL = 5 * 60 * 1000;
 
 let artifyCache: ServiceResult | null = null;
@@ -52,7 +53,7 @@ const defaultServices: ServiceInput[] = [
 	{
 		id: 'artify-api',
 		name: 'Artify API',
-		url: 'https://api.artify.usenov.com/api/auth/health',
+		url: ARTIFY_HEALTH_URL,
 		type: 'api',
 	},
 ];
@@ -60,6 +61,7 @@ const defaultServices: ServiceInput[] = [
 function getStatus(statusCode: number): ServiceStatus {
 	if (statusCode >= 200 && statusCode < 400) return 'online';
 	if (statusCode >= 400 && statusCode < 500) return 'degraded';
+
 	return 'down';
 }
 
@@ -69,6 +71,14 @@ function createId(name: string) {
 		.trim()
 		.replace(/\s+/g, '-')
 		.replace(/[^a-z0-9-]/g, '');
+}
+
+function normalizeUrl(url: string) {
+	return url.trim().replace(/\/$/, '');
+}
+
+function isArtifyApi(service: ServiceInput) {
+	return normalizeUrl(service.url) === normalizeUrl(ARTIFY_HEALTH_URL);
 }
 
 function json(data: unknown, status = 200) {
@@ -118,20 +128,25 @@ async function runServiceCheck(service: ServiceInput): Promise<ServiceResult> {
 }
 
 async function checkService(service: ServiceInput): Promise<ServiceResult> {
-	if (service.id !== 'artify-api') {
+	if (!isArtifyApi(service)) {
 		return runServiceCheck(service);
 	}
 
 	const now = Date.now();
+	const cacheAge = now - artifyCacheTime;
 
-	if (artifyCache && now - artifyCacheTime < ARTIFY_CACHE_TTL) {
+	if (artifyCache && cacheAge < ARTIFY_CACHE_TTL) {
 		return {
 			...artifyCache,
 			checkedAt: new Date(artifyCacheTime).toISOString(),
 		};
 	}
 
-	const result = await runServiceCheck(service);
+	const result = await runServiceCheck({
+		...service,
+		id: service.id ?? 'artify-api',
+		type: service.type ?? 'api',
+	});
 
 	artifyCache = result;
 	artifyCacheTime = now;
@@ -157,8 +172,12 @@ export default {
 			return json(null);
 		}
 
-		if (request.method === 'GET' && (url.pathname === '/' || url.pathname === '/api/status')) {
+		if (
+			request.method === 'GET' &&
+			(url.pathname === '/' || url.pathname === '/api/status')
+		) {
 			const data = await checkServices(defaultServices);
+
 			return json(data);
 		}
 
@@ -179,6 +198,7 @@ export default {
 				const safeServices = body.services.slice(0, 10);
 
 				const data = await checkServices(safeServices);
+
 				return json(data);
 			} catch {
 				return json(
