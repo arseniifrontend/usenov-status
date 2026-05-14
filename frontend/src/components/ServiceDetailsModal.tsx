@@ -72,9 +72,9 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
     const avgLatency =
         history.length > 0
             ? Math.round(
-                  history.reduce((sum, point) => sum + (point.responseTime ?? 0), 0) /
-                      history.length
-              )
+                history.reduce((sum, point) => sum + (point.responseTime ?? 0), 0) /
+                    history.length
+            )
             : 0;
 
     const chartData = history.map((point) => ({
@@ -203,6 +203,8 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
                                         dataKey="time"
                                         stroke="#71717a"
                                         tick={{ fontSize: 12 }}
+                                        minTickGap={40}
+                                        tickMargin={10}
                                     />
 
                                     <YAxis
