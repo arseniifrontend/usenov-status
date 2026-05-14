@@ -6,7 +6,7 @@ import { getServiceHistory, getServicesStatus } from "../services/status.service
 
 import type { Service, ServiceHistoryPoint } from "../types/status.types";
 
-const STATUS_REFRESH_INTERVAL = 5 * 60 * 1000;
+const STATUS_REFRESH_INTERVAL = 3 * 60 * 1000;
 
 type ServiceHistoryMap = Record<string, ServiceHistoryPoint[]>;
 

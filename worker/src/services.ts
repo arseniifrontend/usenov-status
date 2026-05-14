@@ -5,7 +5,7 @@ import type {
 	StatusResponse,
 } from './types';
 
-export const STATUS_CACHE_TTL = 5 * 60 * 1000;
+export const STATUS_CACHE_TTL = 3 * 60 * 1000;
 
 let statusCache: StatusResponse | null = null;
 let statusCacheTime = 0;
