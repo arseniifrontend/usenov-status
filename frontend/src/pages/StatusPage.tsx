@@ -1,15 +1,34 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { ServiceCard } from "../components/ServiceCard";
-import { getServicesStatus } from "../services/status.service";
+import { ServiceDetailsModal } from "../components/ServiceDetailsModal";
+import { getServiceHistory, getServicesStatus } from "../services/status.service";
 
-import type { Service } from "../types/status.types";
+import type { Service, ServiceHistoryPoint } from "../types/status.types";
+
+const STATUS_REFRESH_INTERVAL = 5 * 60 * 1000;
+
+type ServiceHistoryMap = Record<string, ServiceHistoryPoint[]>;
 
 export function StatusPage() {
     const [services, setServices] = useState<Service[]>([]);
+    const [historyMap, setHistoryMap] = useState<ServiceHistoryMap>({});
     const [checkedAt, setCheckedAt] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
+    const [selectedService, setSelectedService] = useState<Service | null>(null);
+
+    async function loadHistory(servicesList: Service[]) {
+        const historyEntries = await Promise.all(
+            servicesList.map(async (service) => {
+                const history = await getServiceHistory(service.id);
+
+                return [service.id, history] as const;
+            })
+        );
+
+        setHistoryMap(Object.fromEntries(historyEntries));
+    }
 
     async function loadStatus(isRefresh = false) {
         try {
@@ -19,6 +38,8 @@ export function StatusPage() {
 
             setServices(data.services);
             setCheckedAt(data.checkedAt);
+
+            await loadHistory(data.services);
         } catch (error) {
             console.error(error);
         } finally {
@@ -32,7 +53,7 @@ export function StatusPage() {
 
         const intervalId = window.setInterval(() => {
             loadStatus(true);
-        }, 30000);
+        }, STATUS_REFRESH_INTERVAL);
 
         return () => window.clearInterval(intervalId);
     }, []);
@@ -46,18 +67,12 @@ export function StatusPage() {
         const avgResponse =
             services.length > 0
                 ? Math.round(
-                        services.reduce((sum, s) => sum + (s.responseTime ?? 0), 0) /
-                            services.length
-                    )
+                      services.reduce((sum, s) => sum + (s.responseTime ?? 0), 0) /
+                          services.length
+                  )
                 : 0;
 
-        return {
-            total,
-            online,
-            degraded,
-            down,
-            avgResponse,
-        };
+        return { total, online, degraded, down, avgResponse };
     }, [services]);
 
     if (loading) {
@@ -134,7 +149,12 @@ export function StatusPage() {
 
                 <section className="grid gap-5">
                     {services.map((service) => (
-                        <ServiceCard key={service.id} service={service} />
+                        <ServiceCard
+                            key={service.id}
+                            service={service}
+                            history={historyMap[service.id] ?? []}
+                            onClick={() => setSelectedService(service)}
+                        />
                     ))}
                 </section>
 
@@ -145,10 +165,17 @@ export function StatusPage() {
                             ecosystem.
                         </p>
 
-                        <p>Built with React, TypeScript and Node.js.</p>
+                        <p>Built with React, TypeScript and Cloudflare Workers.</p>
                     </div>
                 </footer>
             </div>
+
+            {selectedService && (
+                <ServiceDetailsModal
+                    service={selectedService}
+                    onClose={() => setSelectedService(null)}
+                />
+            )}
         </main>
     );
 }

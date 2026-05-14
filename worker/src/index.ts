@@ -1,171 +1,11 @@
-type ServiceStatus = 'online' | 'degraded' | 'down';
+import { json } from './response';
+import { checkDefaultServices, checkServices } from './services';
+import { getServiceHistory, saveChecks } from './supabase';
 
-type ServiceInput = {
-	id?: string;
-	name: string;
-	url: string;
-	type?: 'website' | 'api';
-};
-
-type ServiceResult = {
-	id: string;
-	name: string;
-	url: string;
-	type: 'website' | 'api';
-	status: ServiceStatus;
-	statusCode: number | null;
-	responseTime: number | null;
-	checkedAt: string;
-	error?: string;
-};
-
-const ARTIFY_HEALTH_URL = 'https://api.artify.usenov.com/api/auth/health';
-const ARTIFY_CACHE_TTL = 5 * 60 * 1000;
-
-let artifyCache: ServiceResult | null = null;
-let artifyCacheTime = 0;
-
-const defaultServices: ServiceInput[] = [
-	{
-		id: 'usenov',
-		name: 'Usenov',
-		url: 'https://usenov.com',
-		type: 'website',
-	},
-	{
-		id: 'flowtab',
-		name: 'Flowtab',
-		url: 'https://flowtab.usenov.com',
-		type: 'website',
-	},
-	{
-		id: '19mushrooms',
-		name: '19Mushrooms',
-		url: 'https://19mushrooms.usenov.com/',
-		type: 'website',
-	},
-	{
-		id: 'borutska-browser',
-		name: 'Borutska Browser',
-		url: 'https://borutska-brows.usenov.com/',
-		type: 'website',
-	},
-	{
-		id: 'artify-api',
-		name: 'Artify API',
-		url: ARTIFY_HEALTH_URL,
-		type: 'api',
-	},
-];
-
-function getStatus(statusCode: number): ServiceStatus {
-	if (statusCode >= 200 && statusCode < 400) return 'online';
-	if (statusCode >= 400 && statusCode < 500) return 'degraded';
-
-	return 'down';
-}
-
-function createId(name: string) {
-	return name
-		.toLowerCase()
-		.trim()
-		.replace(/\s+/g, '-')
-		.replace(/[^a-z0-9-]/g, '');
-}
-
-function normalizeUrl(url: string) {
-	return url.trim().replace(/\/$/, '');
-}
-
-function isArtifyApi(service: ServiceInput) {
-	return normalizeUrl(service.url) === normalizeUrl(ARTIFY_HEALTH_URL);
-}
-
-function json(data: unknown, status = 200) {
-	return new Response(JSON.stringify(data), {
-		status,
-		headers: {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin': '*',
-			'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-			'Access-Control-Allow-Headers': 'Content-Type',
-		},
-	});
-}
-
-async function runServiceCheck(service: ServiceInput): Promise<ServiceResult> {
-	const startedAt = Date.now();
-
-	try {
-		const response = await fetch(service.url, {
-			method: 'GET',
-			signal: AbortSignal.timeout(5000),
-		});
-
-		return {
-			id: service.id ?? createId(service.name),
-			name: service.name,
-			url: service.url,
-			type: service.type ?? 'website',
-			status: getStatus(response.status),
-			statusCode: response.status,
-			responseTime: Date.now() - startedAt,
-			checkedAt: new Date().toISOString(),
-		};
-	} catch (error) {
-		return {
-			id: service.id ?? createId(service.name),
-			name: service.name,
-			url: service.url,
-			type: service.type ?? 'website',
-			status: 'down',
-			statusCode: null,
-			responseTime: null,
-			checkedAt: new Date().toISOString(),
-			error: error instanceof Error ? error.message : 'Unknown error',
-		};
-	}
-}
-
-async function checkService(service: ServiceInput): Promise<ServiceResult> {
-	if (!isArtifyApi(service)) {
-		return runServiceCheck(service);
-	}
-
-	const now = Date.now();
-	const cacheAge = now - artifyCacheTime;
-
-	if (artifyCache && cacheAge < ARTIFY_CACHE_TTL) {
-		return {
-			...artifyCache,
-			checkedAt: new Date(artifyCacheTime).toISOString(),
-		};
-	}
-
-	const result = await runServiceCheck({
-		...service,
-		id: service.id ?? 'artify-api',
-		type: service.type ?? 'api',
-	});
-
-	artifyCache = result;
-	artifyCacheTime = now;
-
-	return result;
-}
-
-async function checkServices(services: ServiceInput[]) {
-	const results = await Promise.all(services.map(checkService));
-
-	return {
-		success: true,
-		checkedAt: new Date().toISOString(),
-		services: results,
-	};
-}
+import type { Env, ServiceInput } from './types';
 
 export default {
-	async fetch(request: Request) {
+	async fetch(request: Request, env: Env) {
 		const url = new URL(request.url);
 
 		if (request.method === 'OPTIONS') {
@@ -176,9 +16,31 @@ export default {
 			request.method === 'GET' &&
 			(url.pathname === '/' || url.pathname === '/api/status')
 		) {
-			const data = await checkServices(defaultServices);
+			const { data, shouldSave } = await checkDefaultServices();
+
+			if (shouldSave) {
+				await saveChecks(env, data.services);
+			}
 
 			return json(data);
+		}
+
+		if (request.method === 'GET' && url.pathname.startsWith('/api/history/')) {
+			const serviceId = decodeURIComponent(url.pathname.replace('/api/history/', ''));
+
+			if (!serviceId) {
+				return json(
+					{
+						success: false,
+						message: 'serviceId is required',
+					},
+					400
+				);
+			}
+
+			const data = await getServiceHistory(env, serviceId);
+
+			return json(data, data.success ? 200 : 500);
 		}
 
 		if (request.method === 'POST' && url.pathname === '/api/check') {
@@ -196,7 +58,6 @@ export default {
 				}
 
 				const safeServices = body.services.slice(0, 10);
-
 				const data = await checkServices(safeServices);
 
 				return json(data);

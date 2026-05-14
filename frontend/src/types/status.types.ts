@@ -1,7 +1,4 @@
-export type ServiceStatus =
-    | "online"
-    | "degraded"
-    | "down";
+export type ServiceStatus = "online" | "degraded" | "down";
 
 export type Service = {
     id: string;
@@ -19,4 +16,12 @@ export type StatusResponse = {
     success: boolean;
     checkedAt: string;
     services: Service[];
+};
+
+export type ServiceHistoryPoint = {
+    time: string;
+    checkedAt: string;
+    status: ServiceStatus;
+    responseTime: number | null;
+    statusCode: number | null;
 };

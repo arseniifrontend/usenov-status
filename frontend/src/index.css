@@ -13,12 +13,12 @@ body {
   font-family: Inter, sans-serif;
 }
 
+/* Widget Studio scrollbar */
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(4, 174, 121, 0.65) transparent;
 }
 
-/* Chrome / Edge / Safari */
 .custom-scrollbar::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -36,7 +36,6 @@ body {
     rgba(4, 174, 121, 0.9),
     rgba(4, 174, 121, 0.55)
   );
-
   border-radius: 999px;
   border: 2px solid rgba(0, 0, 0, 0.45);
 }
@@ -51,4 +50,49 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+/* Service details modal scrollbar */
+.modal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.modal-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
