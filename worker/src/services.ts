@@ -64,7 +64,7 @@ async function runServiceCheck(service: ServiceInput): Promise<ServiceResult> {
 	try {
 		const response = await fetch(service.url, {
 			method: 'GET',
-			signal: AbortSignal.timeout(5000),
+			signal: AbortSignal.timeout(10000),
 		});
 
 		return {

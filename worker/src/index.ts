@@ -1,5 +1,5 @@
 import { json } from './response';
-import { checkDefaultServices, checkServices } from './services';
+import { checkDefaultServices, checkServices, defaultServices } from './services';
 import { getServiceHistory, saveChecks } from './supabase';
 
 import type { Env, ServiceInput } from './types';
@@ -79,5 +79,11 @@ export default {
 			},
 			404
 		);
+	},
+
+	async scheduled(_controller: ScheduledController, env: Env) {
+		const data = await checkServices(defaultServices);
+
+		await saveChecks(env, data.services);
 	},
 };

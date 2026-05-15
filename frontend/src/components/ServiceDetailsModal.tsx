@@ -72,9 +72,9 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
     const avgLatency =
         history.length > 0
             ? Math.round(
-                history.reduce((sum, point) => sum + (point.responseTime ?? 0), 0) /
-                    history.length
-            )
+                  history.reduce((sum, point) => sum + (point.responseTime ?? 0), 0) /
+                      history.length
+              )
             : 0;
 
     const chartData = history.map((point) => ({
@@ -84,11 +84,11 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
 
     return (
         <div
-            className="fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center bg-black/70 px-4 backdrop-blur-xl"
+            className="fixed inset-0 z-50 flex animate-[fadeIn_0.2s_ease-out] items-center justify-center overflow-y-auto bg-black/70 px-4 py-6 backdrop-blur-xl"
             onClick={onClose}
         >
             <div
-                className="relative w-full max-w-5xl animate-[modalIn_0.25s_ease-out] rounded-3xl border border-white/10 bg-[#080808] p-6 text-white shadow-2xl"
+                className="relative my-auto w-full max-w-5xl animate-[modalIn_0.25s_ease-out] rounded-3xl border border-white/10 bg-[#080808] p-6 text-white shadow-2xl"
                 onClick={(event) => event.stopPropagation()}
             >
                 <button
@@ -214,7 +214,10 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
                                     />
 
                                     <Tooltip
-                                        cursor={{ stroke: "rgba(52, 211, 153, 0.25)", strokeWidth: 1 }}
+                                        cursor={{
+                                            stroke: "rgba(52, 211, 153, 0.25)",
+                                            strokeWidth: 1,
+                                        }}
                                         contentStyle={{
                                             background: "#09090b",
                                             border: "1px solid rgba(255,255,255,0.1)",
