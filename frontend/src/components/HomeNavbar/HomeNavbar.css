@@ -21,8 +21,9 @@
     border-radius: 0 0 30px 30px;
     background: rgba(5, 5, 6, 0.6);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(15px);
+
     -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
 }
 
 .home-nav-left {
@@ -52,6 +53,7 @@
 .home-brand-text {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     line-height: 1;
 }
 
