@@ -36,7 +36,7 @@ export function HomePage() {
         <main className="home-page">
             <HomeNavbar />
 
-            <section className="home-hero">
+            <section className="home-hero" id="home">
                 <img src={Path} alt="" className="home-hero-path" />
 
                 <div className="home-hero-content">

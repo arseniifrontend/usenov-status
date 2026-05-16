@@ -200,6 +200,10 @@
     margin: 0;
 }
 
+.home-footer-logo {
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
     .home-footer-container {
         width: calc(100% - 48px);

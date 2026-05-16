@@ -4,18 +4,31 @@ import Logo from "../../assets/HomePage/UsenovStatus_logo.svg";
 // import GithubLogo from "../../assets/HomePage/Github_logo.svg";
 
 export function HomeFooter() {
+
+    const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     return (
         <footer className="home-footer">
             <div className="home-footer-container">
                 <div className="home-footer-top">
-                    <a href="/" className="home-footer-logo">
+                    <button
+                        type="button"
+                        className="home-footer-logo"
+                        onClick={() => scrollToSection("home")}
+                    >
                         <img src={Logo} alt="Usenov Status" />
 
                         <span className="home-footer-brand-text">
                             <span className="home-footer-brand-name">USENOV</span>
                             <span className="home-footer-brand-word">STATUS</span>
                         </span>
-                    </a>
+                    </button>
 
                     {/* <div className="home-footer-socials">
                         <a
@@ -34,7 +47,7 @@ export function HomeFooter() {
 
                     <ul className="home-footer-links">
                         <li>
-                            <a href="/">Home</a>
+                            <a href="https://www.usenov.com">Home</a>
                         </li>
 
                         <li>

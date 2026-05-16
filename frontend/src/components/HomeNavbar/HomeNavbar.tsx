@@ -14,11 +14,26 @@ export function HomeNavbar() {
         setMenuOpen(false);
     };
 
+    const scrollToSection = (id: string) => {
+        const section = document.getElementById(id);
+
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     return (
         <>
             <nav className="home-navbar">
                 <div className="home-nav-left">
-                    <a href="/" className="home-brand" onClick={closeMenu}>
+                    <button
+                        type="button"
+                        className="home-brand"
+                        onClick={() => {
+                            scrollToSection("home");
+                            closeMenu();
+                        }}
+                    >
                         <img
                             src={Logo}
                             className="home-brand-mark"
@@ -27,15 +42,12 @@ export function HomeNavbar() {
 
                         <span className="home-brand-text">
                             <span className="home-brand-name">USENOV</span>
-
-                            <span className="home-brand-word">
-                                STATUS
-                            </span>
+                            <span className="home-brand-word">STATUS</span>
                         </span>
-                    </a>
+                    </button>
 
                     <div className="home-nav-links">
-                        <a href="/" className="home-nav-link">
+                        <a href="https://www.usenov.com" className="home-nav-link">
                             Home
                         </a>
 
@@ -90,7 +102,7 @@ export function HomeNavbar() {
                 </button>
 
                 <div className="home-mobile-nav">
-                    <a href="/" onClick={closeMenu}>
+                    <a href="https://www.usenov.com" onClick={closeMenu}>
                         Home
                     </a>
 
