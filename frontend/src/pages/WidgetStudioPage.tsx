@@ -185,13 +185,13 @@ export function WidgetStudioPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#050505] text-white">
-      <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-3 py-10 min-[380px]:px-4 sm:px-6 sm:py-16 lg:px-8">
         <header className="mb-10">
           <div className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-400">
             Widget Studio
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+          <h1 className="text-[34px] font-bold leading-[1.05] tracking-tight min-[380px]:text-4xl sm:text-5xl md:text-6xl">
             Build your status card
           </h1>
 
@@ -201,8 +201,8 @@ export function WidgetStudioPage() {
           </p>
         </header>
 
-        <section className="grid items-start gap-6 lg:grid-cols-[380px_1fr]">
-          <aside className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+        <section className="grid min-w-0 items-start gap-5 sm:gap-6 lg:grid-cols-[380px_1fr]">
+          <aside className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl min-[380px]:rounded-3xl min-[380px]:p-5 sm:p-6">
             <div className="mb-7">
               <h2 className="text-xl font-semibold tracking-tight">
                 Customize
@@ -247,7 +247,7 @@ export function WidgetStudioPage() {
                 )}
               </div>
 
-              <div className="grid grid-cols-[1fr_58px] gap-3">
+              <div className="grid grid-cols-1 gap-3 min-[360px]:grid-cols-[1fr_58px]">
                 <label className="grid gap-2">
                   <span className="text-sm text-zinc-400">Accent color</span>
 
@@ -355,8 +355,8 @@ export function WidgetStudioPage() {
             </div>
           </aside>
 
-          <section className="grid gap-6">
-            <div className="rounded-3xl border border-white/10 p-6 sm:p-8">
+          <section className="grid min-w-0 gap-5 sm:gap-6">
+            <div className="min-w-0 rounded-2xl border border-white/10 p-4 min-[380px]:rounded-3xl min-[380px]:p-5 sm:p-8">
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="text-xl font-semibold tracking-tight">
@@ -373,7 +373,7 @@ export function WidgetStudioPage() {
                 </div>
               </div>
 
-              <div className="rounded-[32px] border border-white/10 p-6 sm:p-8 lg:p-10">
+              <div className="min-w-0 overflow-hidden rounded-2xl border border-white/10 p-3 min-[380px]:rounded-[28px] min-[380px]:p-5 sm:p-8 lg:p-10">
                 <StatusWidget
                   appearance={appearance}
                   theme={theme}
@@ -402,8 +402,8 @@ export function WidgetStudioPage() {
               </div>
             </div>
             
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-              <div className="mb-5 flex items-center justify-between gap-4">
+            <div className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl min-[380px]:rounded-3xl min-[380px]:p-5 sm:p-6">
+              <div className="mb-5 flex flex-col items-start gap-4 min-[380px]:flex-row min-[380px]:items-center min-[380px]:justify-between">
                 <div>
                   <h2 className="text-xl font-semibold tracking-tight">
                     Generated code

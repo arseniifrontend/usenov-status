@@ -35,12 +35,12 @@ export const defaultServices: ServiceInput[] = [
 		url: 'https://borutska-brows.usenov.com/',
 		type: 'website',
 	},
-	{
-		id: 'artify-api',
-		name: 'Artify API',
-		url: 'https://api.artify.usenov.com/api/auth/health',
-		type: 'api',
-	},
+	// {
+	// 	id: 'artify-api',
+	// 	name: 'Artify API',
+	// 	url: 'https://api.artify.usenov.com/api/auth/health',
+	// 	type: 'api',
+	// },
 ];
 
 function getStatus(statusCode: number): ServiceStatus {
