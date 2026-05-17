@@ -5,6 +5,9 @@ import "@usenov/status-widget/dist/status-widget.css";
 
 import CopyIcon from "../assets/copy-icon.svg";
 
+import HomeNavbar from "../components/HomeNavbar/HomeNavbar";
+import HomeFooter from "../components/HomeFooter/HomeFooter";
+
 type Theme = "dark" | "light" | "glass" | "neon";
 type Appearance = "default" | "modern";
 type ServiceType = "website" | "api";
@@ -185,7 +188,17 @@ export function WidgetStudioPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#050505] text-white">
-      <div className="relative mx-auto w-full max-w-7xl px-3 py-10 min-[380px]:px-4 sm:px-6 sm:py-16 lg:px-8">
+      <HomeNavbar />
+
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/2 top-[-120px] h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-emerald-500/15 blur-[140px]" />
+
+        <div className="absolute right-[-120px] top-[240px] h-[320px] w-[320px] rounded-full bg-cyan-500/10 blur-[120px]" />
+
+        <div className="absolute left-[-120px] bottom-[120px] h-[280px] w-[280px] rounded-full bg-emerald-400/10 blur-[120px]" />
+      </div>
+
+      <div className="relative mx-auto w-full max-w-7xl px-3 pb-12 pt-40 min-[380px]:px-4 sm:px-6 sm:pb-16 sm:pt-44 lg:px-8">
         <header className="mb-10">
           <div className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-400">
             Widget Studio
@@ -465,6 +478,8 @@ export function WidgetStudioPage() {
           </section>
         </section>
       </div>
+
+      <HomeFooter />
     </main>
   );
 }
