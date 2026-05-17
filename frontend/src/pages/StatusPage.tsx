@@ -6,6 +6,9 @@ import { getServiceHistory, getServicesStatus } from "../services/status.service
 
 import type { Service, ServiceHistoryPoint } from "../types/status.types";
 
+import HomeNavbar from "../components/HomeNavbar/HomeNavbar";
+import HomeFooter from "../components/HomeFooter/HomeFooter";
+
 const STATUS_REFRESH_INTERVAL = 3 * 60 * 1000;
 
 type ServiceHistoryMap = Record<string, ServiceHistoryPoint[]>;
@@ -96,9 +99,11 @@ export function StatusPage() {
 
     return (
         <main className="relative min-h-screen overflow-hidden bg-[#050505] text-white">
+            <HomeNavbar />
+
             <div className="pointer-events-none absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-500/20 blur-[120px]" />
 
-            <div className="relative mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+            <div className="relative mx-auto max-w-5xl px-4 pb-12 pt-40 sm:px-6 sm:pb-16 sm:pt-44 lg:px-8">
                 <header className="mb-10">
                     <div className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-400">
                         {refreshing ? "Checking services..." : "Live monitoring"}
@@ -157,18 +162,9 @@ export function StatusPage() {
                         />
                     ))}
                 </section>
-
-                <footer className="mt-16 border-t border-white/10 pt-8">
-                    <div className="flex flex-col gap-3 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
-                        <p>
-                            Usenov Status · Monitoring websites and APIs across the Usenov
-                            ecosystem.
-                        </p>
-
-                        <p>Built with React, TypeScript and Cloudflare Workers.</p>
-                    </div>
-                </footer>
             </div>
+
+            <HomeFooter />
 
             {selectedService && (
                 <ServiceDetailsModal

@@ -278,7 +278,7 @@
         margin-top: auto;
         width: 100%;
         max-width: 280px;
-        height: 64px;
+        min-height: 56px;
 
         align-self: center;
 
@@ -359,7 +359,7 @@
 
 @media (max-width: 458px) {
     .home-mobile-menu {
-        height: 460px;
+        height: 520px;
         padding: 34px 24px;
     }
 }
@@ -382,10 +382,5 @@
     .home-close-btn {
         width: 44px;
         height: 44px;
-    }
-
-    .home-mobile-cta {
-        height: 58px;
-        font-size: 13px;
     }
 }

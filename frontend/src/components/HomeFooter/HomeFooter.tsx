@@ -47,7 +47,11 @@ export function HomeFooter() {
 
                     <ul className="home-footer-links">
                         <li>
-                            <a href="https://www.usenov.com">Home</a>
+                            <a href="/">Home</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.usenov.com">Usenov</a>
                         </li>
 
                         <li>

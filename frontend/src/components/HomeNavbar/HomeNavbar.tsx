@@ -47,8 +47,12 @@ export function HomeNavbar() {
                     </button>
 
                     <div className="home-nav-links">
-                        <a href="https://www.usenov.com" className="home-nav-link">
+                        <a href="/" className="home-nav-link">
                             Home
+                        </a>
+
+                        <a href="https://www.usenov.com" className="home-nav-link">
+                            Usenov
                         </a>
 
                         <a href="/live" className="home-nav-link">
@@ -102,8 +106,12 @@ export function HomeNavbar() {
                 </button>
 
                 <div className="home-mobile-nav">
-                    <a href="https://www.usenov.com" onClick={closeMenu}>
+                    <a href="/" className="home-nav-link">
                         Home
+                    </a>
+
+                    <a href="https://www.usenov.com" className="home-nav-link">
+                        Usenov
                     </a>
 
                     <a href="/live" onClick={closeMenu}>
