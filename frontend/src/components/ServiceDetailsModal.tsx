@@ -84,11 +84,11 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
 
     return (
         <div
-            className="fixed inset-0 z-[2000] flex items-start justify-center overflow-y-auto bg-black/70 px-4 py-8 backdrop-blur-xl sm:items-center sm:py-10"
+            className="fixed inset-0 z-[2000] flex items-center justify-center overflow-hidden bg-black/70 px-4 py-6 backdrop-blur-xl"
             onClick={onClose}
         >
             <div
-                className="relative my-10 w-full max-w-5xl animate-[modalIn_0.25s_ease-out] rounded-3xl border border-white/10 bg-[#080808] p-6 text-white shadow-2xl sm:p-7 lg:p-8"
+                className="relative max-h-[calc(100vh-48px)] w-full max-w-5xl animate-[modalIn_0.25s_ease-out] overflow-y-auto rounded-3xl border border-white/10 bg-[#080808] p-6 text-white shadow-2xl modal-scrollbar sm:p-7 lg:p-8"
                 onClick={(event) => event.stopPropagation()}
             >
                 <button
