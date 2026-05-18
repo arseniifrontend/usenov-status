@@ -234,3 +234,113 @@ body {
         animation: none;
     }
 }
+
+/* ============================= */
+/* Widget Studio page animations */
+/* ============================= */
+
+.widget-glow-reveal {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.08);
+    animation: widgetGlowReveal 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.widget-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    animation: widgetRevealUp 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: opacity, transform;
+}
+
+.widget-reveal--1 {
+    animation-delay: 0.12s;
+}
+
+.widget-reveal--2 {
+    animation-delay: 0.44s;
+}
+
+.widget-title-reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    animation: widgetTitleReveal 1.25s cubic-bezier(0.22, 1, 0.36, 1) 0.26s forwards;
+    will-change: opacity, transform;
+}
+
+.widget-panel-reveal {
+    opacity: 0;
+    transform: translateY(34px);
+    animation: widgetPanelReveal 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: opacity, transform;
+}
+
+.widget-panel-reveal--1 {
+    animation-delay: 0.72s;
+}
+
+.widget-panel-reveal--2 {
+    animation-delay: 0.84s;
+}
+
+.widget-panel-reveal--3 {
+    animation-delay: 0.96s;
+}
+
+@keyframes widgetGlowReveal {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) scale(1.08);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+@keyframes widgetRevealUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes widgetTitleReveal {
+    from {
+        opacity: 0;
+        transform: translateY(36px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes widgetPanelReveal {
+    from {
+        opacity: 0;
+        transform: translateY(34px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .widget-glow-reveal,
+    .widget-reveal,
+    .widget-title-reveal,
+    .widget-panel-reveal {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+}

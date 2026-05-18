@@ -191,7 +191,7 @@ export function WidgetStudioPage() {
       <HomeNavbar />
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/2 top-[-120px] h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-emerald-500/15 blur-[140px]" />
+        <div className="absolute left-1/2 top-[-120px] h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-emerald-500/15 blur-[140px] widget-glow-reveal" />
 
         <div className="absolute right-[-120px] top-[240px] h-[320px] w-[320px] rounded-full bg-cyan-500/10 blur-[120px]" />
 
@@ -200,22 +200,22 @@ export function WidgetStudioPage() {
 
       <div className="relative mx-auto w-full max-w-7xl px-3 pb-12 pt-40 min-[380px]:px-4 sm:px-6 sm:pb-16 sm:pt-44 lg:px-8">
         <header className="mb-10">
-          <div className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-400">
+          <div className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-400 widget-reveal widget-reveal--1">
             Widget Studio
           </div>
 
-          <h1 className="text-[34px] font-bold leading-[1.05] tracking-tight min-[380px]:text-4xl sm:text-5xl md:text-6xl">
+          <h1 className="text-[34px] font-bold leading-[1.05] tracking-tight min-[380px]:text-4xl sm:text-5xl md:text-6xl widget-title-reveal">
             Build your status card
           </h1>
 
-          <p className="mt-4 max-w-2xl text-sm text-zinc-500 sm:text-base">
+          <p className="mt-4 max-w-2xl text-sm text-zinc-500 sm:text-base widget-reveal widget-reveal--2">
             Customize a beautiful infrastructure status widget and copy the
             generated React code.
           </p>
         </header>
 
         <section className="grid min-w-0 items-start gap-5 sm:gap-6 lg:grid-cols-[380px_1fr]">
-          <aside className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl min-[380px]:rounded-3xl min-[380px]:p-5 sm:p-6">
+          <aside className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl min-[380px]:rounded-3xl min-[380px]:p-5 sm:p-6 widget-panel-reveal widget-panel-reveal--1">
             <div className="mb-7">
               <h2 className="text-xl font-semibold tracking-tight">
                 Customize
@@ -279,17 +279,17 @@ export function WidgetStudioPage() {
                     value={accentColor}
                     onChange={(event) => setAccentColor(event.target.value)}
                     className="
-                      h-[46px]
-                      w-full
-                      cursor-pointer
-                      rounded-2xl
-                      border
-                      border-white/10
-                      bg-black/20
-                      p-1
-                      appearance-none
-                      overflow-hidden
-                    "
+                    h-[46px]
+                    w-full
+                    cursor-pointer
+                    rounded-2xl
+                    border
+                    border-white/10
+                    bg-black/20
+                    p-1
+                    appearance-none
+                    overflow-hidden
+                  "
                   />
                 </label>
               </div>
@@ -369,7 +369,7 @@ export function WidgetStudioPage() {
           </aside>
 
           <section className="grid min-w-0 gap-5 sm:gap-6">
-            <div className="min-w-0 rounded-2xl border border-white/10 p-4 min-[380px]:rounded-3xl min-[380px]:p-5 sm:p-8">
+            <div className="min-w-0 rounded-2xl border border-white/10 p-4 min-[380px]:rounded-3xl min-[380px]:p-5 sm:p-8 widget-panel-reveal widget-panel-reveal--2">
               <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h2 className="text-xl font-semibold tracking-tight">
@@ -414,8 +414,8 @@ export function WidgetStudioPage() {
                 />
               </div>
             </div>
-            
-            <div className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl min-[380px]:rounded-3xl min-[380px]:p-5 sm:p-6">
+
+            <div className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl min-[380px]:rounded-3xl min-[380px]:p-5 sm:p-6 widget-panel-reveal widget-panel-reveal--3">
               <div className="mb-5 flex flex-col items-start gap-4 min-[380px]:flex-row min-[380px]:items-center min-[380px]:justify-between">
                 <div>
                   <h2 className="text-xl font-semibold tracking-tight">
