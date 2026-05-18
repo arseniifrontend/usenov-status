@@ -204,6 +204,49 @@
     cursor: pointer;
 }
 
+.home-footer {
+    overflow: hidden;
+}
+
+.home-footer-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    will-change: opacity, transform;
+}
+
+.home-footer--visible .home-footer-reveal {
+    animation: homeFooterReveal 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.home-footer--visible .home-footer-reveal--1 { animation-delay: 0.08s; }
+.home-footer--visible .home-footer-reveal--2 { animation-delay: 0.2s; }
+.home-footer--visible .home-footer-reveal--3 { animation-delay: 0.32s; }
+.home-footer--visible .home-footer-reveal--4 { animation-delay: 0.44s; }
+.home-footer--visible .home-footer-reveal--5 { animation-delay: 0.56s; }
+.home-footer--visible .home-footer-reveal--6 { animation-delay: 0.68s; }
+.home-footer--visible .home-footer-reveal--7 { animation-delay: 0.8s; }
+.home-footer--visible .home-footer-reveal--8 { animation-delay: 0.92s; }
+
+@keyframes homeFooterReveal {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-footer-reveal {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+}
+
 @media (max-width: 768px) {
     .home-footer-container {
         width: calc(100% - 48px);
