@@ -28,7 +28,7 @@ export function HomeNavbar() {
                 <div className="home-nav-left">
                     <button
                         type="button"
-                        className="home-brand"
+                        className="home-brand home-navbar-reveal home-navbar-reveal--1"
                         onClick={() => {
                             scrollToSection("home");
                             closeMenu();
@@ -47,19 +47,19 @@ export function HomeNavbar() {
                     </button>
 
                     <div className="home-nav-links">
-                        <a href="/" className="home-nav-link">
+                        <a href="/" className="home-nav-link home-navbar-reveal home-navbar-reveal--2">
                             Home
                         </a>
 
-                        <a href="https://www.usenov.com" className="home-nav-link">
+                        <a href="https://www.usenov.com" className="home-nav-link home-navbar-reveal home-navbar-reveal--3">
                             Usenov
                         </a>
 
-                        <a href="/live" className="home-nav-link">
+                        <a href="/live" className="home-nav-link home-navbar-reveal home-navbar-reveal--4">
                             Status
                         </a>
 
-                        <a href="/widget" className="home-nav-link">
+                        <a href="/widget" className="home-nav-link home-navbar-reveal home-navbar-reveal--5">
                             Widget
                         </a>
 
@@ -67,7 +67,7 @@ export function HomeNavbar() {
                             href="https://github.com/ArseniiFrontend/Usenov-Status"
                             target="_blank"
                             rel="noreferrer"
-                            className="home-nav-link"
+                            className="home-nav-link home-navbar-reveal home-navbar-reveal--6"
                         >
                             GitHub
                         </a>
@@ -75,13 +75,13 @@ export function HomeNavbar() {
                 </div>
 
                 <div className="home-nav-right">
-                    <a href="/live" className="home-nav-cta">
+                    <a href="/live" className="home-nav-cta home-navbar-reveal home-navbar-reveal--7">
                         Open status
                     </a>
 
                     <button
                         type="button"
-                        className="home-mobile-menu-btn"
+                        className="home-mobile-menu-btn home-navbar-reveal home-navbar-reveal--8"
                         onClick={() => setMenuOpen(true)}
                         aria-label="Open menu"
                     >
@@ -106,19 +106,35 @@ export function HomeNavbar() {
                 </button>
 
                 <div className="home-mobile-nav">
-                    <a href="/" className="home-nav-link">
+                    <a
+                        href="/"
+                        className={`home-mobile-nav-item ${menuOpen ? "home-mobile-nav-item--show home-mobile-nav-item--1" : ""}`}
+                        onClick={closeMenu}
+                    >
                         Home
                     </a>
 
-                    <a href="https://www.usenov.com" className="home-nav-link">
+                    <a
+                        href="https://www.usenov.com"
+                        className={`home-mobile-nav-item ${menuOpen ? "home-mobile-nav-item--show home-mobile-nav-item--2" : ""}`}
+                        onClick={closeMenu}
+                    >
                         Usenov
                     </a>
 
-                    <a href="/live" onClick={closeMenu}>
+                    <a
+                        href="/live"
+                        className={`home-mobile-nav-item ${menuOpen ? "home-mobile-nav-item--show home-mobile-nav-item--3" : ""}`}
+                        onClick={closeMenu}
+                    >
                         Status
                     </a>
 
-                    <a href="/widget" onClick={closeMenu}>
+                    <a
+                        href="/widget"
+                        className={`home-mobile-nav-item ${menuOpen ? "home-mobile-nav-item--show home-mobile-nav-item--4" : ""}`}
+                        onClick={closeMenu}
+                    >
                         Widget
                     </a>
 
@@ -126,6 +142,7 @@ export function HomeNavbar() {
                         href="https://github.com/ArseniiFrontend/Usenov-Status"
                         target="_blank"
                         rel="noreferrer"
+                        className={`home-mobile-nav-item ${menuOpen ? "home-mobile-nav-item--show home-mobile-nav-item--5" : ""}`}
                         onClick={closeMenu}
                     >
                         GitHub
@@ -134,7 +151,7 @@ export function HomeNavbar() {
 
                 <a
                     href="/live"
-                    className="home-mobile-cta"
+                    className={`home-mobile-cta ${menuOpen ? "home-mobile-cta--show" : ""}`}
                     onClick={closeMenu}
                 >
                     Open status
