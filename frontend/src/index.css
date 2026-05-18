@@ -96,3 +96,141 @@ body {
     transform: translateY(0) scale(1);
   }
 }
+
+/* ============================= */
+/* Status page animations */
+/* ============================= */
+
+.status-glow-reveal {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.08);
+    animation: statusGlowReveal 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.status-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    animation: statusRevealUp 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: opacity, transform;
+}
+
+.status-reveal--1 {
+    animation-delay: 0.12s;
+}
+
+.status-reveal--2 {
+    animation-delay: 0.44s;
+}
+
+.status-reveal--3 {
+    animation-delay: 0.58s;
+}
+
+.status-title-reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    animation: statusTitleReveal 1.25s cubic-bezier(0.22, 1, 0.36, 1) 0.26s forwards;
+    will-change: opacity, transform;
+}
+
+.status-card-reveal {
+    opacity: 0;
+    transform: translateY(34px);
+    animation: statusCardReveal 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: opacity, transform;
+}
+
+.status-card-reveal--1 {
+    animation-delay: 0.72s;
+}
+
+.status-card-reveal--2 {
+    animation-delay: 0.84s;
+}
+
+.status-card-reveal--3 {
+    animation-delay: 0.96s;
+}
+
+.status-card-reveal--4 {
+    animation-delay: 1.08s;
+}
+
+.status-service-reveal {
+    opacity: 0;
+    transform: translateY(34px);
+    animation: statusServiceReveal 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: opacity, transform;
+}
+
+@keyframes statusGlowReveal {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) scale(1.08);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+@keyframes statusRevealUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes statusTitleReveal {
+    from {
+        opacity: 0;
+        transform: translateY(36px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes statusCardReveal {
+    from {
+        opacity: 0;
+        transform: translateY(34px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes statusServiceReveal {
+    from {
+        opacity: 0;
+        transform: translateY(34px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .status-glow-reveal,
+    .status-reveal,
+    .status-title-reveal,
+    .status-card-reveal,
+    .status-service-reveal {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+}

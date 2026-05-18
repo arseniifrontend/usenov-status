@@ -101,65 +101,74 @@ export function StatusPage() {
         <main className="relative min-h-screen overflow-hidden bg-[#050505] text-white">
             <HomeNavbar />
 
-            <div className="pointer-events-none absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-500/20 blur-[120px]" />
+            <div className="pointer-events-none absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-500/20 blur-[120px] status-glow-reveal" />
 
             <div className="relative mx-auto max-w-5xl px-4 pb-12 pt-40 sm:px-6 sm:pb-16 sm:pt-44 lg:px-8">
                 <header className="mb-10">
-                    <div className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-400">
+                    <div className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-400 status-reveal status-reveal--1">
                         {refreshing ? "Checking services..." : "Live monitoring"}
                     </div>
 
-                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+                    <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl status-title-reveal">
                         Usenov Status
                     </h1>
 
-                    <p className="mt-4 text-sm text-zinc-500 sm:text-base">
+                    <p className="mt-4 text-sm text-zinc-500 sm:text-base status-reveal status-reveal--2">
                         {summary.down === 0 && summary.degraded === 0
                             ? "All systems operational"
                             : "Some services require attention"}
                     </p>
 
                     {checkedAt && (
-                        <p className="mt-2 text-xs text-zinc-600">
+                        <p className="mt-2 text-xs text-zinc-600 status-reveal status-reveal--3">
                             Last updated: {new Date(checkedAt).toLocaleTimeString()}
                         </p>
                     )}
                 </header>
 
                 <section className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 status-card-reveal status-card-reveal--1">
                         <p className="text-sm text-zinc-500">Services</p>
                         <p className="mt-2 text-3xl font-bold">{summary.total}</p>
                     </div>
 
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 status-card-reveal status-card-reveal--2">
                         <p className="text-sm text-zinc-500">Operational</p>
                         <p className="mt-2 text-3xl font-bold text-emerald-400">
                             {summary.online}
                         </p>
                     </div>
 
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 status-card-reveal status-card-reveal--3">
                         <p className="text-sm text-zinc-500">Degraded</p>
                         <p className="mt-2 text-3xl font-bold text-yellow-400">
                             {summary.degraded}
                         </p>
                     </div>
 
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 status-card-reveal status-card-reveal--4">
                         <p className="text-sm text-zinc-500">Avg latency</p>
-                        <p className="mt-2 text-3xl font-bold">{summary.avgResponse} ms</p>
+                        <p className="mt-2 text-3xl font-bold">
+                            {summary.avgResponse} ms
+                        </p>
                     </div>
                 </section>
 
                 <section className="grid gap-5">
-                    {services.map((service) => (
-                        <ServiceCard
+                    {services.map((service, index) => (
+                        <div
                             key={service.id}
-                            service={service}
-                            history={historyMap[service.id] ?? []}
-                            onClick={() => setSelectedService(service)}
-                        />
+                            className="status-service-reveal"
+                            style={{
+                                animationDelay: `${0.65 + index * 0.12}s`,
+                            }}
+                        >
+                            <ServiceCard
+                                service={service}
+                                history={historyMap[service.id] ?? []}
+                                onClick={() => setSelectedService(service)}
+                            />
+                        </div>
                     ))}
                 </section>
             </div>
