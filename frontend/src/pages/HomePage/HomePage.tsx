@@ -1,5 +1,7 @@
 import "./HomePage.css";
 
+import { useEffect, useRef, useState } from "react";
+
 import {
     Area,
     AreaChart,
@@ -32,15 +34,56 @@ const latencyData = [
 ];
 
 export function HomePage() {
+    const dashboardRef = useRef<HTMLElement | null>(null);
+    const openSourceRef = useRef<HTMLElement | null>(null);
+
+    const [dashboardVisible, setDashboardVisible] = useState(false);
+    const [openSourceVisible, setOpenSourceVisible] = useState(false);
+
+    useEffect(() => {
+        const dashboard = dashboardRef.current;
+        const openSource = openSourceRef.current;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+
+                    if (entry.target === dashboard) {
+                        setDashboardVisible(true);
+                    }
+
+                    if (entry.target === openSource) {
+                        setOpenSourceVisible(true);
+                    }
+
+                    observer.unobserve(entry.target);
+                });
+            },
+            {
+                threshold: 0.2,
+            }
+        );
+
+        if (dashboard) observer.observe(dashboard);
+        if (openSource) observer.observe(openSource);
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <main className="home-page">
             <HomeNavbar />
 
             <section className="home-hero" id="home">
-                <img src={Path} alt="" className="home-hero-path" />
+                <img
+                    src={Path}
+                    alt=""
+                    className="home-hero-path home-hero-path-reveal"
+                />
 
                 <div className="home-hero-content">
-                    <div className="home-members-badge">
+                    <div className="home-members-badge home-hero-reveal home-hero-reveal--1">
                         <div className="home-avatar-stack">
                             <img src={Logo3} alt="" />
                             <img src={Logo2} alt="" />
@@ -52,39 +95,49 @@ export function HomePage() {
                         <a href="/widget">Widget →</a>
                     </div>
 
-                    <h1>
+                    <h1 className="home-title-reveal">
                         Monitor your services.
                         <br />
                         Share your uptime.
                     </h1>
 
-                    <p>
+                    <p className="home-hero-reveal home-hero-reveal--2">
                         A modern status platform for websites, APIs and developer tools.
                         Built with Cloudflare Workers, Supabase and a reusable React widget.
                     </p>
 
-                    <a href="/live" className="home-primary-button">
+                    <a
+                        href="/live"
+                        className="home-primary-button home-hero-reveal home-hero-reveal--3"
+                    >
                         View live status
                     </a>
                 </div>
             </section>
 
-            <section className="home-dashboard">
+            <section
+                ref={dashboardRef}
+                className={`home-dashboard ${
+                    dashboardVisible ? "home-section--visible" : ""
+                }`}
+            >
                 <div className="home-dashboard-header">
-                    <div className="home-dashboard-tag">
+                    <div className="home-dashboard-tag home-section-reveal home-section-reveal--1">
                         <img src={DashboardIcon} alt="" />
                         Dashboard
                     </div>
 
-                    <h2>An intuitive analytic dashboard</h2>
+                    <h2 className="home-section-reveal home-section-reveal--2">
+                        An intuitive analytic dashboard
+                    </h2>
 
-                    <p>
+                    <p className="home-section-reveal home-section-reveal--3">
                         Get deep visibility and control with real-time status,
                         latency history and monitoring analytics.
                     </p>
                 </div>
 
-                <div className="home-dashboard-preview">
+                <div className="home-dashboard-preview home-section-reveal home-section-reveal--4">
                     <div className="home-dashboard-topbar">
                         <div>
                             <p className="home-dashboard-label">Usenov Status</p>
@@ -206,30 +259,35 @@ export function HomePage() {
                 </div>
             </section>
 
-            <section className="home-open-source">
+            <section
+                ref={openSourceRef}
+                className={`home-open-source ${
+                    openSourceVisible ? "home-section--visible" : ""
+                }`}
+            >
                 <div className="home-open-glow" />
 
                 <div className="home-open-source-content">
                     <div className="home-open-source-left">
-                        <div className="home-open-source-badge">
+                        <div className="home-open-source-badge home-section-reveal home-section-reveal--1">
                             <img src={GithubLogo} alt="" />
                             Open source ecosystem
                         </div>
 
-                        <h2>
+                        <h2 className="home-section-reveal home-section-reveal--2">
                             Built for developers.
                             <br />
                             Designed for scale.
                         </h2>
 
-                        <p>
+                        <p className="home-section-reveal home-section-reveal--3">
                             Usenov Status combines realtime monitoring,
                             public status pages and embeddable widgets
                             into one modern ecosystem powered by
                             Cloudflare Workers and React.
                         </p>
 
-                        <div className="home-open-source-actions">
+                        <div className="home-open-source-actions home-section-reveal home-section-reveal--4">
                             <a
                                 href="https://github.com/ArseniiFrontend/Usenov-Status"
                                 target="_blank"
@@ -246,7 +304,7 @@ export function HomePage() {
                         </div>
                     </div>
 
-                    <div className="home-open-source-right">
+                    <div className="home-open-source-right home-section-reveal home-section-reveal--5">
                         <div className="home-code-window">
                             <div className="home-code-window-top">
                                 <div className="home-code-window-dots">
@@ -296,7 +354,9 @@ export function HomePage() {
                                 </div>
 
                                 <div className="home-code-line code-indent-xl">
-                                    <span className="code-blue">&lt;StatusWidget</span>
+                                    <span className="code-blue">
+                                        &lt;StatusWidget
+                                    </span>
                                 </div>
 
                                 <div className="home-code-line code-indent-2xl">

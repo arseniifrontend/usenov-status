@@ -598,6 +598,144 @@
     white-space: nowrap;
 }
 
+.home-page {
+    overflow-x: hidden;
+}
+
+.home-hero-path-reveal {
+    opacity: 0;
+    transform: scale(1.04);
+    animation: homePathReveal 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.home-hero-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    animation: homeHeroReveal 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: opacity, transform;
+}
+
+.home-hero-reveal--1 {
+    animation-delay: 0.12s;
+}
+
+.home-hero-reveal--2 {
+    animation-delay: 0.55s;
+}
+
+.home-hero-reveal--3 {
+    animation-delay: 0.75s;
+}
+
+.home-title-reveal {
+    opacity: 0;
+    transform: translateY(42px);
+    animation: homeTitleReveal 1.35s cubic-bezier(0.22, 1, 0.36, 1) 0.28s forwards;
+    will-change: opacity, transform;
+}
+
+.home-section-reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    will-change: opacity, transform;
+}
+
+.home-section--visible .home-section-reveal {
+    animation: homeSectionReveal 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.home-section--visible .home-section-reveal--1 {
+    animation-delay: 0.08s;
+}
+
+.home-section--visible .home-section-reveal--2 {
+    animation-delay: 0.2s;
+}
+
+.home-section--visible .home-section-reveal--3 {
+    animation-delay: 0.32s;
+}
+
+.home-section--visible .home-section-reveal--4 {
+    animation-delay: 0.44s;
+}
+
+.home-section--visible .home-section-reveal--5 {
+    animation-delay: 0.56s;
+}
+
+@keyframes homePathReveal {
+    from {
+        opacity: 0;
+        transform: scale(1.04);
+    }
+
+    to {
+        opacity: 0.14;
+        transform: scale(1);
+    }
+}
+
+@keyframes homeHeroReveal {
+    from {
+        opacity: 0;
+        transform: translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes homeTitleReveal {
+    from {
+        opacity: 0;
+        transform: translateY(42px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes homeSectionReveal {
+    from {
+        opacity: 0;
+        transform: translateY(36px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.home-dashboard-preview,
+.home-code-window {
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease;
+}
+
+.home-dashboard-preview:hover,
+.home-code-window:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-hero-path-reveal,
+    .home-hero-reveal,
+    .home-title-reveal,
+    .home-section-reveal {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+}
+
 @media (max-width: 900px) {
     .home-hero {
         min-height: 640px;
